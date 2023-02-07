@@ -1,12 +1,11 @@
 import React from 'react';
-import './App.css';
+import './styles/App.scss';
+import Layout from './layout/Layout';
+
 
 function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+  // TODO: Valuta utilizzo del global context
+  return <Layout />;
 }
 
 export default App;
