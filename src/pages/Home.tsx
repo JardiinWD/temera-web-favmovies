@@ -1,8 +1,13 @@
-import React from 'react'
+import React, {Fragment} from 'react'
+import Heading from '../components/Heading'
+import Helmet from '../components/Helmet'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <Fragment>
+      <Helmet page="Homepage" />
+      <Heading type="logo-title" title="Movies" />
+    </Fragment>
   )
 }
 

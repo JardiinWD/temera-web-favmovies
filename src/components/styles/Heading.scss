@@ -1,0 +1,35 @@
+@import "../../styles/utils.scss";
+
+
+.single-movie {
+    @include textProps(
+            var(--heading-single-movie-md-fs), 
+            var(--heading-single-movie-pref-fs),
+            var(--heading-single-movie-xxl-fs), 
+            var(--font-weight-700), 
+            var(--primary-color), 
+            var(--heading-single-movie-lh)
+    )
+}
+
+.logo-title {
+    @include textProps(
+            var(--heading-logo-md-fs), 
+            var(--heading-logo-pref-fs),
+            var(--heading-logo-xxl-fs), 
+            var(--font-weight-700), 
+            var(--primary-color), 
+            var(--heading-logo-lh),
+    )
+}
+
+.logo-thin {
+    @include textProps(
+            var(--heading-logo-md-fs), 
+            var(--heading-logo-pref-fs),
+            var(--heading-logo-xxl-fs), 
+            var(--font-weight-400), 
+            var(--primary-color), 
+            var(--heading-logo-lh),
+    )
+}

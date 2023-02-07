@@ -1,0 +1,25 @@
+@import "./utils.scss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+// Regola di reset
+*,
+*::before,
+*::after{
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--body-bgcolor);
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}

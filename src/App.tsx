@@ -1,10 +1,9 @@
-import React from 'react';
-import './styles/App.scss';
 import Layout from './layout/Layout';
+import './styles/App.scss';
+import React from 'react';
 
 
 function App() {
-  // TODO: Valuta utilizzo del global context
   return <Layout />;
 }
 
