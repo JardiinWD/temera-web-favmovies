@@ -39,8 +39,10 @@
     --content-single-movie-xxl-fs: 18px;
     --content-single-movie-pref-fs: 0.5rem + 0.5vw;
     --content-single-movie-md-fs: 14px;
-    --btn-cta-single-movie-fs: 20px;
     --content-single-movie-lh: 26px;
+    --btn-cta-single-movie-fs: 20px;
+    --info-single-movie-lh: 19px;
+    --info-single-movie-fs: 16px;
     /* Cards-movie */
     --cards-heading-home-fs: 16px;
     --cards-heading-home-lh: 19px;
@@ -59,9 +61,6 @@
 * $fw => Font Weight
 * $line-h => Line height
 * $color => Colore del testo
-* $color => Colore del testo
-* $color => Colore del testo
-* $color => Colore del testo
 */
 @mixin textProps($min, $pref, $max, $fw, $color, $line-h ) {
     font-size: clamp($min, $pref, $max);
@@ -72,6 +71,20 @@
     margin-bottom: 0;
     padding: 0;
 };
+
+/** genericTextProps Mixin 
+* $fs => Font Size
+* $fw => Font Weight
+* $line-h => Line height
+* $color => Colore del testo
+*/
+@mixin genericTextProps($fs, $line-h, $fw, $color) {
+    font-size: $fs;
+    font-weight: $fw;
+    line-height: $line-h;
+    color: $color;
+}
+
 
 /** Mixin per le proprietà di Flex
 * $flex => Display Flex

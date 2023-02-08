@@ -33,9 +33,11 @@
 
 .card-title {
     @include genericDimensionProps(100%, calc(100% - 330px));    
-    font-size: var(--cards-heading-home-fs);
-    line-height: var(--cards-heading-home-lh);
-    font-weight: var(--font-weight-400);
-    color: var(--primary-color);
+    @include genericTextProps(
+        var(--cards-heading-home-fs), 
+        var(--cards-heading-home-lh), 
+        var(--font-weight-400), 
+        var(--primary-color)
+    );
     text-align: center;
 }

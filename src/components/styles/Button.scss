@@ -12,6 +12,12 @@
     border: 0.25px solid rgba(0, 0, 0, 0.1);
 }
 
+.btn-add_to_pref,
+.btn-remove_to_pref  {
+    padding: 14px 45px 14px 45px;
+    border: 0.25px solid rgba(0, 0, 0, 0.1);
+}
+
 .btn-add_to_pref {
     @include buttonProps(
         var(--addtofav-btn-bgcolor),
@@ -20,7 +26,6 @@
         var(--font-weight-700),
         30px
     );
-    padding: 14px 37px 14px 37px;
 }
 
 .btn-remove_to_pref {
@@ -31,5 +36,4 @@
         var(--font-weight-700),
         30px
     );
-    padding: 14px 37px 14px 37px;
 }

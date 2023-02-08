@@ -1,9 +1,18 @@
 @import "../../styles/utils.scss";
 
+.nav-container {
+    @include flexProps(flex, center, center, row);
+}
+
+.nav-row,
+.nav-container {
+    padding: 0;
+}
+
 .nav-row {
     @include flexProps(flex, space-between, center, row);
+    @include genericDimensionProps(100%, 130px);
     flex-wrap: nowrap;
-    height: 130px;
     margin-bottom: 20px;
 }
 

@@ -1,0 +1,68 @@
+@import '../../styles/utils.scss';
+
+.container-details,
+.row-details,
+.details-picture-col,
+.details-content-col {
+    padding: 0;
+}
+
+.container-details {
+    @include flexProps(flex, center, center, row);
+}
+
+.row-details {
+    @include flexProps(flex, space-between, flex-start, row);
+    @include genericDimensionProps(100%, fit-content);
+}
+
+.details-picture-col,
+.details-content-col {
+    height: fit-content;
+}
+
+.details-picture-col img {
+    @include genericDimensionProps(100%, 400px);
+    object-fit: contain;
+}
+
+.details-content-col {
+    /* Heading (Ha già le sue classi ma aggiunto un margin sopra/sotto) */
+    h2 {
+        margin: 10px 0 20px 0;
+    }
+    /* Info */
+    .details-content_info {
+        @include flexProps(flex, flex-start, center, row);
+        @include genericDimensionProps(fit-content, fit-content);
+        column-gap: 15px;
+        margin-bottom: 20px;
+        /* Icona */
+        span > svg {
+            color: var(--icons-single-movie-color);
+            margin-right: 5px;
+        }
+        /* Testo */
+        span {
+            @include genericTextProps(
+                var(--info-single-movie-fs), 
+                var(--info-single-movie-lh), 
+                var(--font-weight-700), 
+                var(--info-single-movie-color)
+            );
+        }
+    }
+    /* Trama */
+    p.details-content_trama {
+        @include textProps(
+            var(--content-single-movie-md-fs), 
+            var(--content-single-movie-pref-fs), 
+            var(--content-single-movie-xxl-fs), 
+            var(--font-weight-400), 
+            var(--content-single-movie-color), 
+            var(--content-single-movie-lh)
+        );
+        margin-bottom: 30px;
+    }
+}
+
