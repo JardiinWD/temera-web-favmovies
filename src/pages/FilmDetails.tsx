@@ -2,6 +2,7 @@ import {Container, Row, Col} from 'reactstrap'
 import Button from '../components/UI/Button'
 import './styles/FilmDetails.scss'
 import Heading from '../components/UI/Heading'
+import Helmet from '../components/Helmet'
 import {AiFillStar} from 'react-icons/ai'
 import {MdMovie} from 'react-icons/md'
 import React, {Fragment} from 'react'
@@ -11,6 +12,7 @@ import React, {Fragment} from 'react'
 const FilmDetails = () => {
   return (
     <Fragment>
+      <Helmet page='Details' />
       <Container className='container-details'>
         <Row className='row-details'>
           {/* Immagine del film */}

@@ -1,0 +1,22 @@
+@import '../../styles/utils.scss';
+@import './Home.scss'; /* Per le col ora ma poi creo componente per le sole Col */
+
+
+.fav-container,
+.fav-row,
+.card-col {
+    padding: 0;
+}
+
+.fav-container {
+    @include flexProps(flex, center, center, column);
+}
+
+.fav-row {
+    @include flexProps(flex, flex-start, flex-start, row);
+    @include genericDimensionProps(100%, fit-content);
+    column-gap: 35px;
+    row-gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
