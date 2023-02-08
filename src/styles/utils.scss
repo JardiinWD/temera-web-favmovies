@@ -3,7 +3,7 @@
 :root {
     --primary-color: #000000;
     --body-bgcolor: #FFFFFF;
-    --active-page-color: ##F5BD00;
+    --active-page-color: #F5BD00;
     --not-active-page-color: #999999;
     --load-btn-bgcolor: #F9F9F9;
     --remove-btn-bgcolor: #F14B60;
@@ -39,28 +39,75 @@
     --content-single-movie-xxl-fs: 18px;
     --content-single-movie-pref-fs: 0.5rem + 0.5vw;
     --content-single-movie-md-fs: 14px;
-    --btn-cta-single-movie-xxl-fs: 20px;
-    --btn-cta-single-movie-pref-fs: 0.7rem + 0.6vw;
-    --btn-cta-single-movie-md-fs: 16px;
+    --btn-cta-single-movie-fs: 20px;
     --content-single-movie-lh: 26px;
     /* Cards-movie */
     --cards-heading-home-fs: 16px;
     --cards-heading-home-lh: 19px;
+    /* Load More Button */
+    --load-btn-home-fs: 16px;
+    --load-btn-home-lh: 19px;
+
 }
 
 /* Mixins */
 
 /** textProps Mixin 
-* min => Valore minimo che verrà assegnato al breakpoint (768px)
-* pref => Valore intermedio e fluido
-* max => Valore minimo che verrà assegnato al breakpoint (1440px)
+* $min => Valore minimo che verrà assegnato al breakpoint (768px)
+* $pref => Valore intermedio e fluido
+* $max => Valore minimo che verrà assegnato al breakpoint (1440px)
 * $fw => Font Weight
-* $color => 
 * $line-h => Line height
+* $color => Colore del testo
+* $color => Colore del testo
+* $color => Colore del testo
+* $color => Colore del testo
 */
-@mixin textProps($min, $pref, $max, $fw, $color, $line-h) {
+@mixin textProps($min, $pref, $max, $fw, $color, $line-h ) {
     font-size: clamp($min, $pref, $max);
     font-weight: $fw;
     line-height: $line-h;
     color: $color;
+    width: fit-content;
+    margin-bottom: 0;
+    padding: 0;
 };
+
+/** Mixin per le proprietà di Flex
+* $flex => Display Flex
+* $justify => Justify dei contenuti
+* $align => Allineamento dei contenuti
+* $dir => Direction 
+*/
+@mixin flexProps($flex, $justify, $align, $dir) {
+    display: $flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $dir;
+}
+
+/** Mixin per le proprietà dei Button
+* $bg-color => Background del button
+* $color => Colore del testo
+* $fs => Dimensione del testo
+* $fw => Spessore del testo 
+*/
+@mixin buttonProps($bg-color, $color, $fs, $fw, $br) {
+    background-color: $bg-color;
+    color: $color;
+    font-size: $fs;
+    font-weight: $fw;
+    border-radius: $br;
+    outline: none;
+    
+}
+
+/** Mixin per alcune proprietà generiche di altezza e larghezza (es cards)
+* $width => Larghezza del contenuto
+* $height => Altezza del contenuto
+*/
+@mixin genericDimensionProps($width, $height) {
+    width: $width;
+    height: $height;
+}
+

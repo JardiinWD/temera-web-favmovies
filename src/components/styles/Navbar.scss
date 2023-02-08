@@ -1,0 +1,30 @@
+@import "../../styles/utils.scss";
+
+.nav-row {
+    @include flexProps(flex, space-between, center, row);
+    flex-wrap: nowrap;
+    height: 130px;
+    margin-bottom: 20px;
+}
+
+.nav-links {
+    width: fit-content;
+    @include flexProps(flex, flex-start, center, row);
+    padding: 0;
+    gap: 35px;
+    /* Ora span, devo fare inizialmente pagina statica poi cambierà il Tag */
+    span {
+        width: fit-content;
+        @include textProps(
+            var(--navbar-links-md-fs), 
+            var(--navbar-links-pref-fs),
+            var(--navbar-links-xxl-fs), 
+            var(--font-weight-500), 
+            var(--not-active-page-color), 
+            var(--heading-logo-lh),
+        )
+    }
+    span.active-page {
+        color: var(--active-page-color);
+    }
+}

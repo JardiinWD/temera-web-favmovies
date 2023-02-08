@@ -1,0 +1,41 @@
+@import '../../styles/utils.scss';
+
+.home-container,
+.home-row,
+.card-col {
+    padding: 0;
+}
+
+.home-container {
+    @include flexProps(flex, center, center, column);
+}
+
+.home-row {
+    @include flexProps(flex, space-between, flex-start, row);
+    @include genericDimensionProps(100%, fit-content);
+    column-gap: 35px;
+    row-gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.card-col {
+    @include flexProps(flex, center, center, column);
+    @include genericDimensionProps(calc(25% - 35px), 370px);
+}
+
+.card-img {
+    @include genericDimensionProps(100%, calc(100% - 50px));
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.card-title {
+    @include genericDimensionProps(100%, calc(100% - 330px));    
+    font-size: var(--cards-heading-home-fs);
+    line-height: var(--cards-heading-home-lh);
+    font-weight: var(--font-weight-400);
+    color: var(--primary-color);
+    text-align: center;
+}

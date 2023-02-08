@@ -1,0 +1,35 @@
+@import "../../styles/utils.scss";
+
+.btn-load_more {
+    @include buttonProps(
+        var(--load-btn-bgcolor),
+        var(--primary-color),
+        var(--load-btn-home-fs),
+        var(--font-weight-500),
+        60px
+    );
+    padding: 14px 37px 14px 37px;
+    border: 0.25px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-add_to_pref {
+    @include buttonProps(
+        var(--addtofav-btn-bgcolor),
+        var(--addtofav-btn-color),
+        var(--btn-cta-single-movie-fs),
+        var(--font-weight-700),
+        30px
+    );
+    padding: 14px 37px 14px 37px;
+}
+
+.btn-remove_to_pref {
+    @include buttonProps(
+        var(--remove-btn-bgcolor),
+        var(--addtofav-btn-color),
+        var(--btn-cta-single-movie-fs),
+        var(--font-weight-700),
+        30px
+    );
+    padding: 14px 37px 14px 37px;
+}

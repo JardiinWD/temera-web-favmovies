@@ -1,5 +1,5 @@
 import type { FunctionComponent } from 'react'
-import './styles/Heading.scss'
+import '../styles/Heading.scss'
 import React from 'react'
 
 type PropsList = {
