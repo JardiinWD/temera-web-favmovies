@@ -5,49 +5,88 @@ import Heading from '../components/UI/Heading'
 import Helmet from '../components/Helmet'
 import {AiFillStar} from 'react-icons/ai'
 import {MdMovie} from 'react-icons/md'
-import React, {Fragment} from 'react'
+import React, {Fragment, useState, useEffect, useMemo} from 'react'
+import type { FunctionComponent } from 'react'
+import { Movies } from '../layout/Layout'
+import { useParams, Link } from 'react-router-dom'
+import {singleMovieFormatDate, roundToDecimal} from '../utils/Format'
 
+const FilmDetails: FunctionComponent = () => {
+    // Prendo l'ID direttamente dalla query 
+    const { id } = useParams();
+    /* APIs Key = dove 278 è l'ID del film singolo  */
+    const API_KEY_SINGLE_MOVIE = `https://api.themoviedb.org/3/movie/${id}?api_key=a74169393e0da3cfbc2c58c5feec63d7`
+    // Array dichiarato inizialmente vuoto
+    const [singleMovie, setSingleMovie] = useState<Movies>();
+    // Memorizzo la mia key nell'hook useMemo
+    const apiMemoKey = useMemo(() => API_KEY_SINGLE_MOVIE, [API_KEY_SINGLE_MOVIE])
+    // path corretto per le immagini del poster e del backdrop
+    const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
 
+    // Richiesta API 
+    useEffect(() => {
+      const fetchSingleMovie = async () => {
+        try {
+          // Salvo in una variabile il responso dalla mia API key
+          const response = await fetch(apiMemoKey);
+          // nella variabile data salvo il JSON del response
+          const data = await response.json();
+          // faccio update della mia funzione di variabile di stato
+          setSingleMovie({
+              backdrop_path: imgInitialPath + data.backdrop_path, // Immagine di sfondo
+              id: data.id, // ID
+              overview: data.overview, // Trama
+              poster_path: imgInitialPath + data.poster_path, // Immagine cards
+              release_date: singleMovieFormatDate(data.release_date), // Data rilascio
+              title: data.title, // Titolo del film
+              vote_average: roundToDecimal(data.vote_average), // Media dei voti
+            }
+          );
+        } catch (error) {
+          // Verifico l'errore in console
+          console.error(error);
+        }
+      };
+      // Invoco la function 
+      fetchSingleMovie();
+    }, [apiMemoKey]);
+  
+    console.log(singleMovie)
 
-const FilmDetails = () => {
   return (
     <Fragment>
-      <Helmet page='Details' />
+      <Helmet page={`${singleMovie?.title}`} />
       <Container className='container-details'>
-        <Row className='row-details'>
+        {
+          singleMovie && <Row className='row-details'>
           {/* Immagine del film */}
           <Col lg='3' className='details-picture-col'>
-            <img className='details-img' src="https://via.placeholder.com/330x400.png?" alt="Immagine Placeholder" />
+            <img className='details-img' src={singleMovie.poster_path} alt={singleMovie.title} />
           </Col>
           {/* Dettagli del Film */}
           <Col lg='8' className='details-content-col'>
-            <Heading type='single-movie' title='The Shawshank Redemption' />
+            <Heading type='single-movie' title={singleMovie.title} />
             {/* Info */}
             <div className='details-content_info'>
-              {/* TODO: Questi possono essere "mappati" con map */}
+              {/* TODO: anche questi possono essere "mappati" con map */}
               <span>
                 <AiFillStar />
-                8.6
+                {singleMovie.vote_average}
               </span>
               <span>
                 <MdMovie />
-                27 Sep 1994
+                {singleMovie.release_date}
               </span>
             </div>
             {/* Text */}
             <p className='details-content_trama'>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium tenetur quos numquam illo 
-              vel temporibus eligendi quod eius blanditiis inventore minus enim nostrum repudiandae nisi 
-              ipsam sequi totam fugit in consequuntur repellendus voluptates, qui mollitia sunt? Eos, 
-              sapiente impedit! Quae eveniet, voluptatum ut ad id eaque, nam, maiores explicabo iure 
-              fugit rerum voluptatem necessitatibus nobis voluptates officiis cum saepe autem.
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo dolore enim quisquam nostrum 
-              unde deleniti sunt tempore ex nemo blanditiis.
+              {singleMovie.overview}
             </p>
             {/* Button */}
             <Button text="Add To Favorite" type='add' />
           </Col>          
         </Row>
+        }
       </Container>
     </Fragment>
   )

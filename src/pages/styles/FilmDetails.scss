@@ -22,8 +22,10 @@
 }
 
 .details-picture-col img {
-    @include genericDimensionProps(100%, 400px);
+    max-width: 100%;
+    min-height: 400px;
     object-fit: contain;
+    aspect-ratio: 3/2;
 }
 
 .details-content-col {
