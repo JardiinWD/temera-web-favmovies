@@ -1,5 +1,8 @@
 // path corretto per le immagini del poster e del backdrop
 export const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
+/* API key per tutti i movie (a pagina 1) */
+export const API_KEY_TOP_RATED = 'https://api.themoviedb.org/3/movie/top_rated?api_key=a74169393e0da3cfbc2c58c5feec63d7&page=1'
+
 
 /** Function per formattare la data come richiesto nella pagina FilmDetails
  * 

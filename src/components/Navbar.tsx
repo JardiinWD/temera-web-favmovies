@@ -2,19 +2,22 @@ import Heading from './UI/Heading'
 import { Container, Row } from 'reactstrap'
 import './styles/Navbar.scss'
 import { Link } from 'react-router-dom'
-import React, {Fragment} from 'react'
+import React, {Fragment, useState, useEffect} from 'react'
 import type { FunctionComponent } from 'react'
+import { useLocation } from 'react-router-dom'
 
-
-type NavProps = {
-  isCurrentPage: string;
-}
-
-const Navbar: FunctionComponent<NavProps> = (props) => {
+const Navbar: FunctionComponent = () => {
   
-  // Destructuring della mia props
-  const {isCurrentPage} = props
+    // Variabile di stato per la pagina corrente
+  const [isCurrentPage, setIsCurrentPage] = useState<string>('')
+  // utilizzo la location e la salvo in una variabile
+  const pageLocation = useLocation()
   
+  // Update della variabile di stato isCurrentPage in base al pathname
+  useEffect(() => {
+    setIsCurrentPage(pageLocation.pathname === '/favorites' ? 'Favorites' : 'Top Rated')
+  }, [pageLocation.pathname])
+
   return (
     <Fragment>
       <Container className='nav-container'>

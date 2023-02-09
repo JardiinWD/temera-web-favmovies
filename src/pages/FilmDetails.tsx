@@ -7,7 +7,7 @@ import {AiFillStar} from 'react-icons/ai'
 import {MdMovie} from 'react-icons/md'
 import React, {Fragment, useState, useEffect, useMemo} from 'react'
 import type { FunctionComponent } from 'react'
-import { Movies } from '../layout/Layout'
+import { Movies } from './Home'
 import { useParams } from 'react-router-dom'
 import {singleMovieFormatDate, roundToDecimal, imgInitialPath} from '../utils/Format'
 
