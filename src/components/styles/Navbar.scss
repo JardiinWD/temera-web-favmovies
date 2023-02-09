@@ -16,6 +16,13 @@
     margin-bottom: 20px;
 }
 
+/* Classi per <Link /> router */
+.nav-row a {
+    padding: 0;
+    width: fit-content;
+    text-decoration: none;
+}
+
 .nav-links {
     width: fit-content;
     @include flexProps(flex, flex-start, center, row);

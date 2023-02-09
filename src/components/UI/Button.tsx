@@ -5,7 +5,7 @@ import React from 'react'
 type ButtonProps = {
     text: String,
     type: 'load' | 'add' | 'remove'
-    /* onClick: () => void  <= Logica da implementare*/
+    onClick: () => void  
 }
 
 const Button: FunctionComponent<ButtonProps> = (props) => {
@@ -13,7 +13,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     /* Se passo il button type 'load' */
     if (props.type === 'load') {
         return (
-            <button className='btn-load_more'>
+            <button onClick={props.onClick} className='btn-load_more'>
                 {props.text}
             </button>
         )

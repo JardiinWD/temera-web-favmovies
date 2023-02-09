@@ -8,8 +8,8 @@ import {MdMovie} from 'react-icons/md'
 import React, {Fragment, useState, useEffect, useMemo} from 'react'
 import type { FunctionComponent } from 'react'
 import { Movies } from '../layout/Layout'
-import { useParams, Link } from 'react-router-dom'
-import {singleMovieFormatDate, roundToDecimal} from '../utils/Format'
+import { useParams } from 'react-router-dom'
+import {singleMovieFormatDate, roundToDecimal, imgInitialPath} from '../utils/Format'
 
 const FilmDetails: FunctionComponent = () => {
     // Prendo l'ID direttamente dalla query 
@@ -20,8 +20,6 @@ const FilmDetails: FunctionComponent = () => {
     const [singleMovie, setSingleMovie] = useState<Movies>();
     // Memorizzo la mia key nell'hook useMemo
     const apiMemoKey = useMemo(() => API_KEY_SINGLE_MOVIE, [API_KEY_SINGLE_MOVIE])
-    // path corretto per le immagini del poster e del backdrop
-    const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
 
     // Richiesta API 
     useEffect(() => {
@@ -83,7 +81,7 @@ const FilmDetails: FunctionComponent = () => {
               {singleMovie.overview}
             </p>
             {/* Button */}
-            <Button text="Add To Favorite" type='add' />
+            <Button onClick={() => {}} text="Add To Favorite" type='add' />
           </Col>          
         </Row>
         }

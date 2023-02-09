@@ -1,3 +1,6 @@
+// path corretto per le immagini del poster e del backdrop
+export const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
+
 /** Function per formattare la data come richiesto nella pagina FilmDetails
  * 
  * @param {string} date La data che ricevo nel responso dell'API  
@@ -34,3 +37,4 @@ export const getOnlyMovieFullYear = (date: string) => {
     // Eseguo return soltanto dell'anno
     return dateObject.getFullYear();
 }
+

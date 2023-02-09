@@ -21,18 +21,20 @@
 
 .card-col {
     @include flexProps(flex, center, center, column);
-    @include genericDimensionProps(calc(25% - 35px), 370px);
+    @include genericDimensionProps(calc(25% - 35px), 430px);
+    text-decoration: none;
 }
 
 .card-img {
-    @include genericDimensionProps(100%, calc(100% - 50px));
-    object-fit: contain;
-    margin-bottom: 10px;
+    min-width: 100%;
+    min-height: calc(100% - 50px);
     border-radius: 10px;
+    aspect-ratio: 16 / 9;
 }
 
 .card-title {
-    @include genericDimensionProps(100%, calc(100% - 330px));    
+    margin-top: 10px;
+    @include genericDimensionProps(100%, calc(100% - 400px));    
     @include genericTextProps(
         var(--cards-heading-home-fs), 
         var(--cards-heading-home-lh), 

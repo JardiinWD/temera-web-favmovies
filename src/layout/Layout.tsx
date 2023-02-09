@@ -1,7 +1,7 @@
 import React, {Fragment, useState, useEffect, useMemo} from 'react'
 import Routers from '../routes/routers'
 import Navbar from '../components/Navbar'
-import {getOnlyMovieFullYear, roundToDecimal} from '../utils/Format'
+import {getOnlyMovieFullYear, roundToDecimal, imgInitialPath} from '../utils/Format'
 
 // Di seguito il type di un singolo oggetto Fetchato in fetchMovies
 // Allo stato attuale ho bisogno di queste caratteristiche
@@ -15,9 +15,7 @@ export type Movies = {
   vote_average: number; // Media dei voti
 }
 
-
 const Layout = () => {
-
   /* API key per tutti i movie (a pagina 1) */
   const API_KEY_TOP_RATED = 'https://api.themoviedb.org/3/movie/top_rated?api_key=a74169393e0da3cfbc2c58c5feec63d7&page=1'
   // Array di oggetti dichiarato inizialmente vuoto
@@ -37,10 +35,10 @@ const Layout = () => {
         // faccio update della mia funzione di variabile di stato
         setMoviesList(
           data.results.map((result: Movies) => ({
-            backdrop_path: result.backdrop_path, 
+            backdrop_path: imgInitialPath + result.backdrop_path, 
             id: result.id, 
             overview: result.overview, 
-            poster_path: result.poster_path, 
+            poster_path: imgInitialPath + result.poster_path, 
             release_date: getOnlyMovieFullYear(result.release_date), 
             title: result.title, 
             vote_average: roundToDecimal(result.vote_average), 
@@ -58,7 +56,7 @@ const Layout = () => {
   return (
     <Fragment>
         <Navbar />
-        <Routers />
+        <Routers moviesList={moviesList} />
     </Fragment>
   )
 }
