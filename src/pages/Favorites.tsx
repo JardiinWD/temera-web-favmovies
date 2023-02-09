@@ -12,20 +12,18 @@ const Favorites = () => {
   useEffect(() => {
     // Prendo gli items dal localStorage
     const getItems = Object.values(localStorage)
-    // salvo il parsing in una variabile
+    // salvo il parsing in una variabile (movies per non confondere)
     const movies: Movies[] = getItems.map(item => JSON.parse(item))
-    // update della variabile di stato
+    // update della variabile di favoriteFilm
     updateFavoriteFilm(movies)
   }, [])
-
-  console.log(favoriteFilm)
 
   return (
     <Fragment>
       <Helmet page="Favorites" />
       <Container className='fav-container'>
         <Row className='fav-row' xl='4' lg="3" md="2" sm="1">
-          {/* TODO: Questa deve essere componente (per ora senza Col, poi vedo di risolvere con semantica corretta) */}
+          {/* TODO: Questa potrebbe essere componente (per ora senza Col, poi vedo di risolvere con semantica corretta) */}
           {
             favoriteFilm.map((item, index) => {
               return (

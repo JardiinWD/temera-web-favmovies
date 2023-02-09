@@ -18,10 +18,12 @@ const FilmDetails: FunctionComponent = () => {
     const API_KEY_SINGLE_MOVIE = `https://api.themoviedb.org/3/movie/${id}?api_key=a74169393e0da3cfbc2c58c5feec63d7`
     // Array dichiarato inizialmente vuoto
     const [singleMovie, setSingleMovie] = useState<Movies>();
+    // Variabile per verificare se c'è già il film nel localStorage (inizialmente false)
+    const [movieFromLocal, setMovieFromLocal] = useState<boolean>(false)
     // Memorizzo la mia key nell'hook useMemo
     const apiMemoKey = useMemo(() => API_KEY_SINGLE_MOVIE, [API_KEY_SINGLE_MOVIE])
 
-    // Richiesta API 
+    //#region Call API
     useEffect(() => {
       const fetchSingleMovie = async () => {
         try {
@@ -48,12 +50,47 @@ const FilmDetails: FunctionComponent = () => {
       // Invoco la function 
       fetchSingleMovie();
     }, [apiMemoKey]);
-  
-    // Handler per aggiungere ai prefe
+    //#endregion
+
+    //#region requisito localStorage 
+
+    // Verifica nel localStorage se presente il film o meno
+    useEffect(() => {
+      // Salvo in una variabile l'item preso dal local storage
+      const movieFromLocalStorage = localStorage.getItem(`${singleMovie?.id}`)
+      // Se esiste al suo interno allora movieFromLocal diventa true
+      if (movieFromLocalStorage) setMovieFromLocal(true)
+    }, [singleMovie?.id])
+
+    // Handler per aggiungere ai favorites
     const addToFavHandler = () => {
-      // Aggiungo al localStorage il mio movie
+      // l'utente aggiunge al localStorage il film
       localStorage.setItem(`${singleMovie?.id}`, JSON.stringify(singleMovie))
+      // cambio stato in true movieFromLocal
+      setMovieFromLocal(true) 
     }
+
+    // Hanlder per rimuovere dai favorites
+    const removeToFavHandler = () => {
+      // l'utente rimuove dal localStorage il film
+      localStorage.removeItem(`${singleMovie?.id}`)
+      // cambio stato in false movieFromLocal
+      setMovieFromLocal(false)
+    }
+    //#endregion
+
+    // Array per content_info
+    const contentInfo = [
+      {
+        icon: <AiFillStar />,
+        text: singleMovie?.vote_average
+      },
+      {
+        icon: <MdMovie />,
+        text: singleMovie?.release_date
+      }
+    ]
+
 
   return (
     <Fragment>
@@ -70,22 +107,30 @@ const FilmDetails: FunctionComponent = () => {
             <Heading type='single-movie' title={singleMovie.title} />
             {/* Info */}
             <div className='details-content_info'>
-              {/* TODO: anche questi possono essere "mappati" con map */}
-              <span>
-                <AiFillStar />
-                {singleMovie.vote_average}
-              </span>
-              <span>
-                <MdMovie />
-                {singleMovie.release_date}
-              </span>
+              {
+                contentInfo.map(({icon, text}) => {
+                  return (
+                    <span key={text}>
+                      {icon}
+                      {text}
+                    </span>
+                  )
+                })
+              }
             </div>
             {/* Text */}
             <p className='details-content_trama'>
               {singleMovie.overview}
             </p>
-            {/* Button */}
-            <Button onClick={addToFavHandler} text="Add To Favorite" type='add' />
+            {/* Buttons */}
+            {
+              movieFromLocal ? 
+              (
+                <Button onClick={removeToFavHandler} text="Remove from Favorites" type='remove' />  
+              ) : (
+                <Button onClick={addToFavHandler} text="Add To Favorite" type='add' />
+              )
+            }
           </Col>          
         </Row>
         }

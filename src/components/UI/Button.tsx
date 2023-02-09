@@ -31,7 +31,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     /* Se passo il button type 'remove' */
     if (props.type === 'remove') {
         return (
-            <button className='btn-remove_to_pref'>
+            <button onClick={props.onClick} className='btn-remove_to_pref'>
                 {props.text}
             </button>
         )

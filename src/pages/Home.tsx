@@ -61,7 +61,7 @@ const Home: FunctionComponent = () => {
       <Helmet page="Homepage" />
       <Container className='home-container'>
         <Row className='home-row' xl='4' lg="3" md="2" sm="1">
-          {/* TODO: Questa deve essere componente (per ora senza Col, poi vedo di risolvere con semantica corretta) */}
+          {/* TODO: Questa potrebbe essere componente (per ora senza Col, poi vedo di risolvere con semantica corretta) */}
           {
             moviesList.map((item, index) => {
               return (
@@ -73,6 +73,7 @@ const Home: FunctionComponent = () => {
             })
           }                       
         </Row>
+        {/* LoadMore ancora da implementare */}
         <Button onClick={() => {}} type='load' text='Load More' />
       </Container>
     </Fragment>
