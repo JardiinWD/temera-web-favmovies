@@ -49,7 +49,11 @@ const FilmDetails: FunctionComponent = () => {
       fetchSingleMovie();
     }, [apiMemoKey]);
   
-    console.log(singleMovie)
+    // Handler per aggiungere ai prefe
+    const addToFavHandler = () => {
+      // Aggiungo al localStorage il mio movie
+      localStorage.setItem(`${singleMovie?.id}`, JSON.stringify(singleMovie))
+    }
 
   return (
     <Fragment>
@@ -81,7 +85,7 @@ const FilmDetails: FunctionComponent = () => {
               {singleMovie.overview}
             </p>
             {/* Button */}
-            <Button onClick={() => {}} text="Add To Favorite" type='add' />
+            <Button onClick={addToFavHandler} text="Add To Favorite" type='add' />
           </Col>          
         </Row>
         }

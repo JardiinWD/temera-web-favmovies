@@ -22,7 +22,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
     /* Se passo il button type 'add' */
     if (props.type === 'add') {
         return (
-            <button className='btn-add_to_pref'>
+            <button onClick={props.onClick} className='btn-add_to_pref'>
                 {props.text}
             </button>
         )
