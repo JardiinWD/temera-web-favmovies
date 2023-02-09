@@ -1,7 +1,8 @@
-import React, {Fragment, useState, useEffect, useMemo} from 'react'
 import Routers from '../routes/routers'
 import Navbar from '../components/Navbar'
 import {getOnlyMovieFullYear, roundToDecimal, imgInitialPath} from '../utils/Format'
+import React, {Fragment, useState, useEffect, useMemo} from 'react'
+import { useLocation } from 'react-router-dom'
 
 // Di seguito il type di un singolo oggetto Fetchato in fetchMovies
 // Allo stato attuale ho bisogno di queste caratteristiche
@@ -20,11 +21,15 @@ const Layout = () => {
   const API_KEY_TOP_RATED = 'https://api.themoviedb.org/3/movie/top_rated?api_key=a74169393e0da3cfbc2c58c5feec63d7&page=1'
   // Array di oggetti dichiarato inizialmente vuoto
   const [moviesList, setMoviesList] = useState<Array<Movies>>([]);
+  // Variabile di stato per la pagina corrente
+  const [isCurrentPage, setIsCurrentPage] = useState<string>('')
   // Memorizzo la mia key nell'hook useMemo
   const apiMemoKey = useMemo(() => API_KEY_TOP_RATED, [])
+  // utilizzo la location e la salvo in una variabile
+  const pageLocation = useLocation()
 
 
-  // Richiesta API 
+  // Richiesta all'API di tutti i film 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -53,9 +58,14 @@ const Layout = () => {
     fetchMovies();
   }, [apiMemoKey]);
 
+  // Update della variabile di stato isCurrentPage in base al pathname
+  useEffect(() => {
+    setIsCurrentPage(pageLocation.pathname === '/favorites' ? 'Favorites' : 'Top Rated')
+  }, [pageLocation.pathname])
+
   return (
     <Fragment>
-        <Navbar />
+        <Navbar isCurrentPage={isCurrentPage} />
         <Routers moviesList={moviesList} />
     </Fragment>
   )

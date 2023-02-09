@@ -8,6 +8,7 @@
 
 .home-container {
     @include flexProps(flex, center, center, column);
+    margin-bottom: 100px;
 }
 
 .home-row {
