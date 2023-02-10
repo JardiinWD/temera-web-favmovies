@@ -1,41 +1,6 @@
 @import '../../styles/utils.scss';
 
-.home-container,
-.home-row,
-.card-col {
-    padding: 0;
-}
-
-.home-container {
-    @include flexProps(flex, center, center, column);
+.btn-load_wrapper {
+    @include flexProps(flex, center, center, row);
     margin-bottom: 100px;
-}
-
-.home-row {
-    row-gap: 20px;
-}
-
-.card-link-wrapper {
-    @include flexProps(flex, center, center, column);
-    @include genericDimensionProps(_, 100%);
-    text-decoration: none;
-}
-
-.card-img {
-    min-width: 100%;
-    min-height: 400px;
-    border-radius: 10px;
-    aspect-ratio: 16 / 9;
-}
-
-.card-title {
-    margin-top: 10px;
-    @include genericDimensionProps(100%, 50px);    
-    @include genericTextProps(
-        var(--cards-heading-home-fs), 
-        var(--cards-heading-home-lh), 
-        var(--font-weight-400), 
-        var(--primary-color)
-    );
-    text-align: center;
 }

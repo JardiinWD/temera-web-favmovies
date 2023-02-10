@@ -1,19 +1,22 @@
 @import '../../styles/utils.scss';
-@import './Home.scss'; /* Per le col ora ma poi creo componente per le sole Col */
 
-
-.fav-container,
-.fav-row,
-.card-col {
+.movie_list-container,
+.movie_list-row {
     padding: 0;
 }
 
-.fav-container {
+.movie_list-container {
     @include flexProps(flex, center, center, column);
+    margin-bottom: 100px;
 }
 
-.fav-row {
+.movie_list-row {
     row-gap: 20px;
+    width: 100%;
+}
+
+.movie_list-col {
+    height: 450px;
 }
 
 .card-link-wrapper {

@@ -1,8 +1,7 @@
 import { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
+import MovieList from '../components/MovieList'
 import Helmet from '../components/Helmet'
 import Button from '../components/UI/Button'
-import {Container, Row, Col} from 'reactstrap'
 import './styles/Home.scss'
 import {getOnlyMovieFullYear, roundToDecimal, imgInitialPath, API_KEY_TOP_RATED} from '../utils/Format'
 import React, {Fragment, useState, useMemo, useEffect} from 'react'
@@ -59,25 +58,11 @@ const Home: FunctionComponent = () => {
   return (
     <Fragment>
       <Helmet page="Homepage" />
-      <Container className='home-container'>
-        <Row className='home-row'>
-          {/* TODO: Questa potrebbe essere componente (per ora senza Col, poi vedo di risolvere con semantica corretta) */}
-          {
-            moviesList.map((item, index) => {
-              return (
-                <Col style={{height : "450px"}} md='6' lg='4' xl='3' xxl='3' sm='8' xs='8'>
-                  <Link className='card-link-wrapper' key={index} to={`/home/${item.id}`}>
-                      <img className='card-img' src={item.poster_path} alt={item.title} />
-                      <span className='card-title'>{item.title}</span>
-                  </Link>
-                </Col>
-              )
-            })
-          }                       
-        </Row>
-        {/* LoadMore ancora da implementare */}
+      <MovieList movieList={moviesList} />
+      {/* LoadMore ancora da implementare */}
+      <div className='btn-load_wrapper'>
         <Button onClick={() => {}} type='load' text='Load More' />
-      </Container>
+      </div>
     </Fragment>
   )
 }
