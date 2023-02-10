@@ -7,7 +7,7 @@
 
 .movie_list-container {
     @include flexProps(flex, center, center, column);
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .movie_list-row {
@@ -23,11 +23,12 @@
     @include flexProps(flex, center, center, column);
     @include genericDimensionProps(_, 100%);
     text-decoration: none;
+    position: relative;
 }
 
 .card-img {
     min-width: 100%;
-    min-height: 400px;
+    min-height: var(--cards-movie-img);
     border-radius: 10px;
     aspect-ratio: 16 / 9;
 }
@@ -43,3 +44,39 @@
     );
     text-align: center;
 }
+
+/*#region Info */
+
+.card-item_info {
+    display: none;
+}
+
+.card-link-wrapper:hover .card-item_info {
+    position: absolute;
+    border-radius: 10px;
+    top: 0;
+    left: 0;
+    @include genericDimensionProps(100%, var(--cards-movie-img));
+    @include flexProps(flex, space-between, end, _); 
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 15px;
+    
+}
+
+.card-item_info-vote {
+    @include genericTextProps(
+        var(--cards-heading-home-fs), 
+        var(--cards-heading-home-lh), 
+        var(--font-weight-700), 
+        var(--body-bgcolor)
+    );
+}
+
+.card-item_info-vote > svg {
+    color: var(--addtofav-btn-bgcolor);
+    margin-right: 8px;
+    scale: 1.25;
+}
+
+/*#endregion  */
