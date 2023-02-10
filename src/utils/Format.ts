@@ -34,7 +34,7 @@ export const roundToDecimal = (rating: number) => {
  * @param {} date La data che ricevo nel responso dell'API 
  * @returns restituisce solo l'anno
  */
-export const getOnlyMovieFullYear = (date: string) => {
+export const getOnlyMovieFullYear = (date: string | number) => {
     // Salvo in una nuova costante il parametro formalizzato come Date()
     const dateObject = new Date(date);
     // Eseguo return soltanto dell'anno

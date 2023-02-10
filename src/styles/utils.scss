@@ -52,6 +52,17 @@
     --load-btn-home-lh: 19px;
 }
 
+/*  MOBILE Props */
+:root {
+    /* Cards Heading */
+    --cards-heading-mob-fs : 21px;
+    --cards-heading-mob-lh : 22px;
+    --cards-heading-mob-color : #222222;
+    /* Cards Rating and data */
+    --cards-info-mob-color: #919191;
+    --cards-info-mob-fs : 14px;
+}
+
 /* Mixins */
 
 /** textProps Mixin 

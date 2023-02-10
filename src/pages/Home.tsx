@@ -41,7 +41,7 @@ const Home: FunctionComponent = () => {
             id: result.id, 
             overview: result.overview, 
             poster_path: imgInitialPath + result.poster_path, 
-            release_date: getOnlyMovieFullYear(result.release_date), 
+            release_date: typeof result.release_date === 'string' ? getOnlyMovieFullYear(result.release_date) : result.release_date, 
             title: result.title, 
             vote_average: roundToDecimal(result.vote_average), 
           }))
@@ -54,7 +54,8 @@ const Home: FunctionComponent = () => {
     // Invoco la function 
     fetchMovies();
   }, [apiMemoKey]);
-  
+
+
   return (
     <Fragment>
       <Helmet page="Homepage" />

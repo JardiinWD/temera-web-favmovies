@@ -16,6 +16,7 @@
 }
 
 .movie_list-col {
+    display: block;
     height: 450px;
 }
 
@@ -79,10 +80,128 @@
     scale: 1.25;
 }
 
+.movie_list-col-resp {
+    display: none;
+}
+
+
 /*#endregion  */
 
 @media only screen and (max-width: 767.98px) {
+    
+    /* Container Responsive */
+    .movie_list-container-resp {
+        width: 100vw;
+        margin-bottom: 50px;
+    }
+    /* Row Responsive */
+    .movie_list-row-resp {
+        width: 100%;
+    }
+
+    /* Col Responsive */
+    .movie_list-col-resp {
+        height: 110px;
+        @include flexProps(flex, center, center, row);
+        padding-bottom: 5px;
+        border-bottom: 0.25px solid var(--cards-info-mob-color);
+    }
+
+    /* Row */
     .movie_list-row {
+        width: 100%;
         @include flexProps(flex, center, center, _);
     }
+    /* Col  */
+    .movie_list-col {
+        display: none;
+    }
+
+
+    /* Content Container */
+    .movie_list-content-resp {
+        @include genericDimensionProps(calc(100% - 130px), 80px);
+        margin-right: 25px;
+    }
+    
+    /* Content Wrapper */
+    .card-link-responsive-wrapper {
+        @include genericDimensionProps(100%, 100px);
+        @include flexProps(flex, flex-start, center, row);
+        text-decoration: none;
+    }
+
+    /* Film Image */
+    .card-link-responsive-wrapper img {
+        @include genericDimensionProps(80px, 80px);
+        object-fit: cover;
+        margin-right: 10px;
+        border-radius: 5px;
+    }
+
+    /* Titolo Film */
+    .movie_list-content-resp .card-title {   
+        @include genericTextProps(
+            var(--cards-heading-mob-fs), 
+            var(--cards-heading-mob-lh), 
+            var(--font-weight-500), 
+            var(--cards-heading-mob-color)
+        );
+        display: block;
+        text-align: left;
+        margin-top: 0;
+    }
+
+    /* Rating e data d'uscita */
+    .card-item_info-data-resp {
+        @include genericTextProps(
+            var(--cards-info-mob-fs), 
+            _, 
+            var(--font-weight-700), 
+            var(--cards-info-mob-color)
+        );
+        margin-right: 10px;
+    }
+
+    .card-item_info-vote-resp {
+        @include genericTextProps(
+            var(--cards-info-mob-fs), 
+            _, 
+            var(--font-weight-700), 
+            var(--cards-info-mob-color)
+        );
+    }
+
+    /* Icone rating/data */
+    .card-item_info-data-resp > svg,
+    .card-item_info-vote-resp > svg {
+        scale: 1.2;
+        margin-right: 5px;
+    }
+    .card-item_info-vote-resp > svg {
+        color: var(--addtofav-btn-bgcolor);
+    }
+
+    /* Arrow button per reindirizzamento */
+    .card-item_info-redirect {
+        text-decoration: none;
+        color: var(--cards-info-mob-color);
+    }
 }
+
+@media only screen and (max-width: 479.98px) {
+    
+    /* Titolo Film */
+    .movie_list-content-resp .card-title {   
+        @include genericTextProps(
+            18px, 
+            var(--cards-heading-mob-lh), 
+            var(--font-weight-500), 
+            var(--cards-heading-mob-color)
+        );
+        display: block;
+        text-align: left;
+        margin-top: 0;
+    }
+}
+
