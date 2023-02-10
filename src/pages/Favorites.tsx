@@ -22,15 +22,17 @@ const Favorites = () => {
     <Fragment>
       <Helmet page="Favorites" />
       <Container className='fav-container'>
-        <Row className='fav-row' xl='4' lg="3" md="2" sm="1">
+        <Row className='fav-row' style={{width : "100%"}}>
           {/* TODO: Questa potrebbe essere componente (per ora senza Col, poi vedo di risolvere con semantica corretta) */}
           {
             favoriteFilm.map((item, index) => {
               return (
-                <Link key={index} className='card-col' to={`/home/${item.id}`}>
-                  <img className='card-img' src={item.poster_path} alt={item.title} />
-                  <span className='card-title'>{item.title}</span>
-                </Link>
+                <Col style={{height : "450px"}} md='6' lg='4' xl='3' xxl='3' sm='8' xs='8'>
+                  <Link key={index} className='card-link-wrapper' to={`/home/${item.id}`}>
+                    <img className='card-img' src={item.poster_path} alt={item.title} />
+                    <span className='card-title'>{item.title}</span>
+                  </Link>
+                </Col>
               )
             })
           }      

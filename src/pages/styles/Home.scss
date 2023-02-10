@@ -12,30 +12,25 @@
 }
 
 .home-row {
-    @include flexProps(flex, space-between, flex-start, row);
-    @include genericDimensionProps(100%, fit-content);
-    column-gap: 35px;
-    row-gap: 25px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
+    row-gap: 20px;
 }
 
-.card-col {
+.card-link-wrapper {
     @include flexProps(flex, center, center, column);
-    @include genericDimensionProps(calc(25% - 35px), 430px);
+    @include genericDimensionProps(_, 100%);
     text-decoration: none;
 }
 
 .card-img {
     min-width: 100%;
-    min-height: calc(100% - 50px);
+    min-height: 400px;
     border-radius: 10px;
     aspect-ratio: 16 / 9;
 }
 
 .card-title {
     margin-top: 10px;
-    @include genericDimensionProps(100%, calc(100% - 400px));    
+    @include genericDimensionProps(100%, 50px);    
     @include genericTextProps(
         var(--cards-heading-home-fs), 
         var(--cards-heading-home-lh), 

@@ -60,15 +60,17 @@ const Home: FunctionComponent = () => {
     <Fragment>
       <Helmet page="Homepage" />
       <Container className='home-container'>
-        <Row className='home-row' xl='4' lg="3" md="2" sm="1">
+        <Row className='home-row'>
           {/* TODO: Questa potrebbe essere componente (per ora senza Col, poi vedo di risolvere con semantica corretta) */}
           {
             moviesList.map((item, index) => {
               return (
-                <Link key={index} className='card-col' to={`/home/${item.id}`}>
-                  <img className='card-img' src={item.poster_path} alt={item.title} />
-                  <span className='card-title'>{item.title}</span>
-                </Link>
+                <Col style={{height : "450px"}} md='6' lg='4' xl='3' xxl='3' sm='8' xs='8'>
+                  <Link className='card-link-wrapper' key={index} to={`/home/${item.id}`}>
+                      <img className='card-img' src={item.poster_path} alt={item.title} />
+                      <span className='card-title'>{item.title}</span>
+                  </Link>
+                </Col>
               )
             })
           }                       
