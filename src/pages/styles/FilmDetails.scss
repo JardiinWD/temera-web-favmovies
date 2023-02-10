@@ -1,5 +1,6 @@
 @import '../../styles/utils.scss';
 
+/* Padding Generale */
 .container-details,
 .row-details,
 .details-picture-col,
@@ -7,20 +8,26 @@
     padding: 0;
 }
 
+/* container-details per versione Web */
 .container-details {
+    display: block;
     @include flexProps(flex, center, center, row);
 }
 
+/* row-details per versione Web */
 .row-details {
+    display: block;
     @include flexProps(flex, space-between, flex-start, row);
     @include genericDimensionProps(100%, fit-content);
 }
 
+/* Altezza condivisa */
 .details-picture-col,
 .details-content-col {
     height: fit-content;
 }
 
+/* Immagine del film */
 .details-picture-col img {
     max-width: 100%;
     min-height: 400px;
@@ -68,3 +75,121 @@
     }
 }
 
+.details-picture-col,
+.details-content-col,
+.details-content_trama {
+    display: block;
+}
+
+/* Rimozione dei container in Media Query */
+.details-picture-col-resp,
+.details-content_trama-resp {
+    display: none;
+}
+
+/* @media (max-width: 991.98px */
+@media only screen and (max-width: 991.98px) {
+    
+    .details-content-col {
+        position: relative;
+    }
+
+    .details-content-col button {
+        @include positionAbsoluteProps(absolute, 0, 0, _, _, 100%, 400%);
+    }
+}
+
+
+/* @media (max-width: 767.98px) */
+@media only screen and (max-width: 767.98px) {
+    
+    /* Disabilito le colonne */
+    .details-picture-col,
+    .details-content-col,
+    .details-content_trama {
+        display: none;
+    }
+
+    /* Container Responsive */
+    .container-details-resp {
+        display: block;
+        width: 100vw;
+        @include flexProps(flex, center, center, row);
+    }
+
+    /* Row Responsive */
+    .row-details-resp {
+        display: block;
+        width: 100%;
+        @include flexProps(flex, center, flex-start, column);
+    }
+
+    .details-picture-col-resp,
+    .details-content_trama-resp {
+        display: block;
+    }
+
+    /* Col per l'immagine */
+    .details-picture-col-resp {
+        padding: 0%;
+        height: fit-content;
+        position: relative;
+    }
+
+    /* Immagine */
+    .details-picture-col-resp img {
+        width: 100%;
+        min-height: 280px;
+        object-fit: cover;
+    }
+
+    /* Col per la trama + testo */
+    .details-content_trama-resp {
+        margin-top: 30px;
+        width: 100%;
+        padding: 0.5rem;
+        & p {
+            @include genericTextProps(
+                var(--single-movie-trama-fs), 
+                var(--single-movie-trama-lh), 
+                var(--font-weight-400), 
+                var(--single-movie-trama-color)
+        );
+        }
+    }
+
+    /* Testo della trama */
+    .details-content-col-resp {
+        @include positionAbsoluteProps(absolute, 0, 0, _, _, _, _);
+        @include genericDimensionProps(100%, 100%);
+        @include flexProps(flex, space-between, flex-end, row);
+        background-color: rgba(0,0,0,0.4);
+        padding: 1rem;
+        color: white;
+        /* Heading Props */
+        h2 {
+            width: 50%;
+            @include genericTextProps(
+                var(--single-movie-title-fs), 
+                var(--single-movie-title-lh), 
+                var(--font-weight-400), 
+                var(--single-movie-title-color)
+            );
+        }
+    }
+
+    /* Hearts Icon */
+    .details-content-col-resp .like-btn-resp,
+    .details-content-col-resp .like-btn-resp-fill {
+        background: none;
+        border: none;
+        scale: 1.5;
+        color: var(--single-movie-title-color);
+    }
+
+    /* Hearts Fill Icon */
+    .details-content-col-resp .like-btn-resp-fill {
+        color: var(--remove-btn-bgcolor);
+    }
+
+}

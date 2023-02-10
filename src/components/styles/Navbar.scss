@@ -63,10 +63,7 @@
     .navbar-responsive_wrapper {
         /* Display & Position pros */
         display: block;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        transform: translate(0%, 70%);
+        @include positionAbsoluteProps(absolute, _, _, 0, 0, 0%, 70%);
         z-index: 2;
         /* Styling */
         background-color: var(--body-bgcolor);

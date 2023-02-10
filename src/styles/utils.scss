@@ -61,6 +61,13 @@
     /* Cards Rating and data */
     --cards-info-mob-color: #919191;
     --cards-info-mob-fs : 14px;
+    /* Film Details */
+    --single-movie-trama-fs : 20px;
+    --single-movie-trama-lh : 28px;
+    --single-movie-trama-color : #333333;
+    --single-movie-title-fs: 28px;
+    --single-movie-title-lh: 32px;
+    --single-movie-title-color: #FFFFFF;
 }
 
 /* Mixins */
@@ -135,3 +142,21 @@
     height: $height;
 }
 
+/** Mixin per i position Absolute
+* $pos => Position Absolute
+* $top => Top
+* $left => Left
+* $bottom => Bottom
+* $right => Right
+* $firstVal => Primo valore transform
+* $secondVal => Secondo valore transform
+*/
+
+@mixin positionAbsoluteProps($pos, $top, $left, $bottom, $right, $firstVal, $secondVal) {
+    position: $pos;
+    top: $top;
+    left: $left;
+    bottom: $bottom;
+    right: $right;   
+    transform: translate($firstVal, $secondVal);
+}

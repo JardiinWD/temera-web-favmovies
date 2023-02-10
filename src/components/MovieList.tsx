@@ -34,8 +34,8 @@ const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
     }, [responsiveWidth])
     
     return (
-    <Container className={`${responsiveWidth ? 'movie_list-container' : 'movie_list-container-resp'}`}>
-        <Row className={`${responsiveWidth ? 'movie_list-row' : 'movie_list-row-resp'}`} >
+    <Container className={`${responsiveWidth ? 'movie_list-container-resp' : 'movie_list-container'}`}>
+        <Row className={`${responsiveWidth ? 'movie_list-row-resp' : 'movie_list-row' }`} >
             {
                 movieList.map((item, index) => {
                     return (

@@ -3,7 +3,7 @@ import Button from '../components/UI/Button'
 import './styles/FilmDetails.scss'
 import Heading from '../components/UI/Heading'
 import Helmet from '../components/Helmet'
-import {AiFillStar} from 'react-icons/ai'
+import {AiFillStar, AiFillHeart, AiOutlineHeart} from 'react-icons/ai'
 import {MdMovie} from 'react-icons/md'
 import React, {Fragment, useState, useEffect, useMemo} from 'react'
 import type { FunctionComponent } from 'react'
@@ -22,6 +22,10 @@ const FilmDetails: FunctionComponent = () => {
     const [movieFromLocal, setMovieFromLocal] = useState<boolean>(false)
     // Memorizzo la mia key nell'hook useMemo
     const apiMemoKey = useMemo(() => API_KEY_SINGLE_MOVIE, [API_KEY_SINGLE_MOVIE])
+    // Attivo anche qui la responsive Width (probabilmente è meglio usare variabile di stato globale, dopotutto serve anche qua e nella navbar)
+    const [responsiveWidth, setResponsiveWidth] = useState<boolean>(false)
+    // Responsive per la Background img (funziona ma la page necessita di refresh)
+    const [responsiveBackgroundImg, setResponsiveBackgroundImg] = useState<boolean>(false)
 
     //#region Call API
     useEffect(() => {
@@ -79,6 +83,27 @@ const FilmDetails: FunctionComponent = () => {
     }
     //#endregion
 
+    //#region Requisito Mobile Vers
+    useEffect(() => {
+      // Handler per aggiornare variabile di stato navToggle al resize
+      const handleResponsiveResize = () => {
+          // Condizione generale per applicare m queries
+          if (window.innerWidth >= 768 && responsiveWidth) setResponsiveWidth(true)
+          // Condizione per immagine di Background
+          if (window.innerWidth < 991.98) setResponsiveBackgroundImg(true)
+        }
+      // Aggiungo evento listener alla window al resize
+      window.addEventListener("resize", handleResponsiveResize)
+
+      // Restituisco comunque una function che rimuove addEventListener
+      return () => {
+          window.removeEventListener("resize", handleResponsiveResize)
+      }
+  }, [responsiveWidth, responsiveBackgroundImg])
+
+
+    //#endregion
+
     // Array per content_info
     const contentInfo = [
       {
@@ -95,46 +120,86 @@ const FilmDetails: FunctionComponent = () => {
   return (
     <Fragment>
       <Helmet page={`${singleMovie?.title}`} />
-      <Container className='container-details'>
-        {
-          singleMovie && <Row className='row-details'>
-          {/* Immagine del film */}
-          <Col lg='3' className='details-picture-col'>
-            <img className='details-img' src={singleMovie.poster_path} alt={singleMovie.title} />
-          </Col>
-          {/* Dettagli del Film */}
-          <Col lg='8' className='details-content-col'>
-            <Heading type='single-movie' title={singleMovie.title} />
-            {/* Info */}
-            <div className='details-content_info'>
-              {
-                contentInfo.map(({icon, text}) => {
-                  return (
-                    <span key={text}>
-                      {icon}
-                      {text}
-                    </span>
+      {
+        singleMovie && (
+          <Container className={`${!responsiveWidth ? 'container-details' : 'container-details-resp' }`}>
+            <Row className={`${!responsiveWidth ? 'row-details' : 'row-details-resp' }`}>
+              {/* Immagine del film */}
+              <Col lg='3' className='details-picture-col'>
+                {
+                  responsiveBackgroundImg ? (
+                    <img className='details-img' src={singleMovie.backdrop_path} alt={singleMovie.title} />
+                  ) : (
+                    <img className='details-img' src={singleMovie.poster_path} alt={singleMovie.title} />
                   )
-                })
+                }
+              </Col>
+              {/* details-content-col */}
+              <Col lg='8' className='details-content-col'>
+                {/* Titolo */}
+                <Heading type='single-movie' title={singleMovie.title} />
+                {/* Rating e data d'uscita */}
+                <div className='details-content_info'>
+                  {
+                    contentInfo.map(({icon, text}) => {
+                      return (
+                        <span key={text}>
+                          {icon}
+                          {text}
+                        </span>
+                      )
+                    })
+                  }
+                </div>
+                {/* Trama */}
+                <p className='details-content_trama'>
+                  {singleMovie.overview}
+                </p>
+                {
+                  movieFromLocal ? 
+                  (
+                    <Button onClick={removeToFavHandler} text="Remove from Favorites" type='remove' />  
+                  ) : (
+                    <Button onClick={addToFavHandler} text="Add To Favorite" type='add' />
+                  )
+                }
+              </Col> 
+              {
+                !responsiveWidth && (
+                  <>
+                    {/* Immagine di background */}
+                    <Col className='details-picture-col-resp' xs='12' sm='12'>
+                      <img src={singleMovie.backdrop_path} alt={singleMovie.title} />
+                      <div className='details-content-col-resp'>
+                        {/* Titolo */}
+                        <Heading type='single-movie' title={singleMovie.title} />
+                        {/* Preferiti */}
+                        {
+                          movieFromLocal ? (
+                            <button onClick={removeToFavHandler} className='like-btn-resp like-btn-resp-fill'>
+                              <AiFillHeart />
+                            </button>
+                          ) : (
+                            <button onClick={addToFavHandler} className='like-btn-resp'>
+                              <AiOutlineHeart />
+                            </button>
+                          )
+                        }
+                      </div>
+                    </Col>
+                    {/* Trama */}
+                    <Col className='details-content_trama-resp' xs='12' sm='12'>
+                      <p>
+                        {singleMovie.overview}
+                      </p>
+                    </Col>
+                  </>
+                )
               }
-            </div>
-            {/* Text */}
-            <p className='details-content_trama'>
-              {singleMovie.overview}
-            </p>
-            {/* Buttons */}
-            {
-              movieFromLocal ? 
-              (
-                <Button onClick={removeToFavHandler} text="Remove from Favorites" type='remove' />  
-              ) : (
-                <Button onClick={addToFavHandler} text="Add To Favorite" type='add' />
-              )
-            }
-          </Col>          
-        </Row>
-        }
-      </Container>
+            </Row>
+          </Container>
+        )
+      }
     </Fragment>
   )
 }
