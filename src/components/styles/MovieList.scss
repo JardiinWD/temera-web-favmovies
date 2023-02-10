@@ -57,7 +57,7 @@
     top: 0;
     left: 0;
     @include genericDimensionProps(100%, var(--cards-movie-img));
-    @include flexProps(flex, space-between, end, _); 
+    @include flexProps(flex, space-between, flex-end, _); 
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 15px;
@@ -80,3 +80,9 @@
 }
 
 /*#endregion  */
+
+@media only screen and (max-width: 767.98px) {
+    .movie_list-row {
+        @include flexProps(flex, center, center, _);
+    }
+}
