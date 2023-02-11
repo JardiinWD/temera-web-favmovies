@@ -2,18 +2,24 @@ import { useState, useEffect, useMemo } from 'react'
 import { Movies } from '../pages/Home'
 import { getOnlyMovieFullYear, roundToDecimal, singleMovieFormatDate } from '../utils/Format'
 
+/** Custom Hook per il fetching dei dati dai miei endpoint
+ * 
+ * @param {string} id ID del film singolo preso da useParams (FilmDetails.tsx) 
+ * @returns 
+ */
 const useFetchApi = (id?: string) => {
-    /* APIs Key = dove 278 è l'ID del film singolo  */
-    const API_KEY_SINGLE_MOVIE = `https://api.themoviedb.org/3/movie/${id}?api_key=a74169393e0da3cfbc2c58c5feec63d7`
-    /* API key per tutti i movie (a pagina 1) */
-    const API_KEY_TOP_RATED = 'https://api.themoviedb.org/3/movie/top_rated?api_key=a74169393e0da3cfbc2c58c5feec63d7&page=1'
-    // path corretto per le immagini del poster e del backdrop
-    const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
-
     // Variabile di stato per il singolo film
     const [singleMovie, setSingleMovie] = useState<Movies>();
     // Variabile di stato per la movieList (top rated)
     const [moviesList, setMoviesList] = useState<Array<Movies>>([]);
+    // Variabile di stato per il loadMore (top rated)
+    const [ratedPage, setRatedPage] = useState<number>(1)
+    // APIs Key = dove id è l'ID del film singolo preso dal params
+    const API_KEY_SINGLE_MOVIE = `https://api.themoviedb.org/3/movie/${id}?api_key=a74169393e0da3cfbc2c58c5feec63d7`
+    // API key per tutti i movie (a pagina 1)
+    const API_KEY_TOP_RATED = `https://api.themoviedb.org/3/movie/top_rated?api_key=a74169393e0da3cfbc2c58c5feec63d7&page=${ratedPage}`
+    // path corretto per le immagini del poster e del backdrop
+    const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
     // Memorizzo le mie Key
     const apiSingleMovieKey = useMemo(() => API_KEY_SINGLE_MOVIE, [API_KEY_SINGLE_MOVIE])
     const apiMovieListKey = useMemo(() => API_KEY_TOP_RATED, [API_KEY_TOP_RATED])
@@ -59,7 +65,7 @@ const useFetchApi = (id?: string) => {
                     id: data.id, // ID
                     overview: data.overview, // Trama
                     poster_path: imgInitialPath + data.poster_path, // Immagine cards
-                    release_date: singleMovieFormatDate(data.release_date), // Data rilascio
+                    release_date: typeof data.release_date === 'string' ? singleMovieFormatDate(data.release_date) : data.release_date, // Data rilascio
                     title: data.title, // Titolo del film
                     vote_average: roundToDecimal(data.vote_average), // Media dei voti
                 }
@@ -71,14 +77,23 @@ const useFetchApi = (id?: string) => {
             }
         };
 
-        // Invoco le functions
+        // Invoco le functions per il fetching
         fetchSingleMovie();
         fetchMovieList();
-
     }, [apiMovieListKey, apiSingleMovieKey]);
 
-    return { singleMovie, moviesList }
+    // Function per incrementare i risultati nella paginazione
+    const loadMoreResult = () => {
+        // Incremento il numero di pagina (che a sua volta cambia il valore all'API KEY)
+        setRatedPage(ratedPage + 1)
+        // Aggiungo uno scroll che mi riporta in cima alla pagina
+        window.scrollTo({
+            top: 0, // Dove
+            behavior: 'smooth' // E in che modo
+        })
+    }
 
+    return { singleMovie, moviesList, loadMoreResult }
 }
 
 export default useFetchApi

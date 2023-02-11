@@ -87,18 +87,6 @@
     display: none;
 }
 
-/* @media (max-width: 991.98px */
-@media only screen and (max-width: 991.98px) {
-    
-    .details-content-col {
-        position: relative;
-    }
-
-    .details-content-col button {
-        @include positionAbsoluteProps(absolute, 0, 0, _, _, 100%, 400%);
-    }
-}
-
 
 /* @media (max-width: 767.98px) */
 @media only screen and (max-width: 767.98px) {

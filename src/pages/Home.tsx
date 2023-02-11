@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import type { FunctionComponent } from 'react'
 import MovieList from '../components/MovieList'
 import Helmet from '../components/Helmet'
 import Button from '../components/UI/Button'
@@ -20,15 +20,15 @@ export type Movies = {
 
 const Home: FunctionComponent = () => {
   // Destructuring del mio useFetchApi per la moviesList con tutti i film
-  const {moviesList} = useFetchApi()
+  const {moviesList, loadMoreResult} = useFetchApi()
   
   return (
-    <Fragment>
+    <Fragment >
       <Helmet page="Homepage" />
       <MovieList movieList={moviesList} />
       {/* LoadMore ancora da implementare */}
       <div className='btn-load_wrapper'>
-        <Button onClick={() => {}} type='load' text='Load More' />
+        <Button onClick={loadMoreResult} type='load' text='Load More' />
       </div>
     </Fragment>
   )
