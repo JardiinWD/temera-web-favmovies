@@ -3,8 +3,9 @@ import MovieList from '../components/MovieList'
 import Helmet from '../components/Helmet'
 import Button from '../components/UI/Button'
 import './styles/Home.scss'
-import React, {Fragment} from 'react'
-import useFetchApi from '../hooks/useFetchApi'
+import React, {Fragment, useState, useEffect} from 'react'
+import { getOnlyMovieFullYear, roundToDecimal } from '../utils/Format'
+
 
 // Di seguito il type di un singolo oggetto Fetchato in fetchMovies
 // Allo stato attuale ho bisogno di queste caratteristiche
@@ -19,9 +20,63 @@ export type Movies = {
 }
 
 const Home: FunctionComponent = () => {
-  // Destructuring del mio useFetchApi per la moviesList con tutti i film
-  const {moviesList, loadMoreResult} = useFetchApi()
+  // Variabile di stato per la movieList (top rated)
+  const [moviesList, setMoviesList] = useState<Array<Movies>>([]);
+  // Variabile di stato per il loadMore (top rated)
+  const [ratedPage, setRatedPage] = useState<number>(1)
+  // NB : 'fs', 'path' e 'os' non mi hanno permesso di salvare la API KEY in un file env.
+  // Conosco l'importanza del salvare la key in un file protetto (e in un gitignore) ma
+  // Non c'è modo di farla andare giù al Webpack. Lascio qua comunque la prova che ci ho sbattuto la testa.
+  // Provando anche a installare dotenv ma non ne vuole sapere
+  // API KEY
+  // const ApiKey = process.env.MOVIE_DB_API_KEY
+  // API URL
+  const API_TOP_RATED = `https://api.themoviedb.org/3/movie/top_rated?api_key=a74169393e0da3cfbc2c58c5feec63d7&page=${ratedPage}`
+  // path corretto per le immagini del poster e del backdrop
+  const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
+
+
+  // Richieste endpoint API
+  useEffect(() => {
+    // Fetch per la movieList
+    const fetchMovieList = async () => {
+        try {
+            // Salvo in una variabile il responso dalla mia API key
+            const response = await fetch(API_TOP_RATED);
+            // nella variabile data salvo il JSON del response
+            const data = await response.json();
+            // faccio update della mia funzione di variabile di stato
+            setMoviesList(
+                data.results.map((result: Movies) => ({
+                    backdrop_path: imgInitialPath + result.backdrop_path,
+                    id: result.id,
+                    overview: result.overview,
+                    poster_path: imgInitialPath + result.poster_path,
+                    release_date: typeof result.release_date === 'string' ? getOnlyMovieFullYear(result.release_date) : result.release_date,
+                    title: result.title,
+                    vote_average: roundToDecimal(result.vote_average),
+                }))
+            );
+        }
+        catch (error) {
+            // Verifico l'errore in console
+            console.error(error);
+        }
+    };
+    fetchMovieList();
+}, [API_TOP_RATED]);
   
+  // Function per incrementare i risultati nella paginazione
+  const loadMoreResult = () => {
+    // Incremento il numero di pagina (che a sua volta cambia il valore all'API KEY)
+    setRatedPage(ratedPage + 1)
+    // Aggiungo uno scroll che mi riporta in cima alla pagina
+    window.scrollTo({
+        top: 0, // Dove
+        behavior: 'smooth' // E in che modo
+    })
+}
+
   return (
     <Fragment >
       <Helmet page="Homepage" />

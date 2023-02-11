@@ -11,21 +11,55 @@ import {Container, Row, Col} from 'reactstrap'
 import Button from '../components/UI/Button'
 import Heading from '../components/UI/Heading'
 import Helmet from '../components/Helmet'
+import { Movies } from './Home'
 /* Style */
 import './styles/FilmDetails.scss'
-/* Custom Hooks */
-import useResponsiveResize from '../hooks/useResponsiveResize'
-import useFetchApi from '../hooks/useFetchApi'
+import { roundToDecimal, singleMovieFormatDate } from '../utils/Format'
 
 const FilmDetails: FunctionComponent = () => {
     // Prendo l'ID direttamente dalla query 
     const { id } = useParams();
-    // Invoco la mia variabile di stato singleMovie e passo l'id del params
-    const {singleMovie} = useFetchApi(id)
+    // Variabile di stato per il singolo film
+    const [singleMovie, setSingleMovie] = useState<Movies>();
+    // APIs Key = dove id è l'ID del film singolo preso dal params
+    const API_SINGLE_MOVIE = `https://api.themoviedb.org/3/movie/${id}?api_key=a74169393e0da3cfbc2c58c5feec63d7`
+    // path corretto per le immagini del poster e del backdrop
+    const imgInitialPath = 'https://image.tmdb.org/t/p/w500'
     // Variabile di stato per verificare se il film è tra i preferiti
     const [movieFromLocal, setMovieFromLocal] = useState<boolean>(false)
-    // Destructuring del mio custom hooks
-    const {responsiveWidth, responsiveBackgroundImg} = useResponsiveResize()
+
+    //#region Fetching API 
+    useEffect(() => {
+    // Fetch per il singleMovie
+    const fetchSingleMovie = async () => {
+        try {
+            // Salvo in una variabile il responso dalla mia API key
+            const response = await fetch(API_SINGLE_MOVIE);
+            // nella variabile data salvo il JSON del response
+            const data = await response.json();
+            // faccio update della mia funzione di variabile di stato
+            setSingleMovie({
+                backdrop_path: imgInitialPath + data.backdrop_path, // Immagine di sfondo
+                id: data.id, // ID
+                overview: data.overview, // Trama
+                poster_path: imgInitialPath + data.poster_path, // Immagine cards
+                release_date: typeof data.release_date === 'string' ? singleMovieFormatDate(data.release_date) : data.release_date, // Data rilascio
+                title: data.title, // Titolo del film
+                vote_average: roundToDecimal(data.vote_average), // Media dei voti
+            }
+            );
+        }
+        catch (error) {
+            // Verifico l'errore in console
+            console.error(error);
+        }
+    };
+
+    // Invoco le functions per il fetching
+    fetchSingleMovie();
+    }, [API_SINGLE_MOVIE]);
+
+    //#endregion
 
     //#region requisito localStorage 
 
@@ -70,18 +104,17 @@ const FilmDetails: FunctionComponent = () => {
     <Fragment>
       <Helmet page={`${singleMovie?.title}`} />
       {
-        singleMovie && (
-          <Container className={`${!responsiveWidth ? 'container-details' : 'container-details-resp' }`}>
-            <Row className={`${!responsiveWidth ? 'row-details' : 'row-details-resp' }`}>
+        singleMovie ? (
+          <Container className='container-details'>
+            <Row className='row-details'>
               {/* Immagine del film */}
               <Col lg='3' className='details-picture-col'>
-                {
-                  responsiveBackgroundImg ? (
-                    <img className='details-img' src={singleMovie.backdrop_path} alt={singleMovie.title} />
-                  ) : (
-                    <img className='details-img' src={singleMovie.poster_path} alt={singleMovie.title} />
-                  )
-                }
+                <img 
+                  className='details-img' 
+                  srcSet={`${singleMovie.poster_path} 992w, ${singleMovie.backdrop_path} 991w`}
+                  alt={singleMovie.title} 
+                  src={window.innerWidth > 992 ? singleMovie.poster_path : singleMovie.backdrop_path}
+                />
               </Col>
               {/* details-content-col */}
               <Col lg='8' className='details-content-col'>
@@ -113,41 +146,35 @@ const FilmDetails: FunctionComponent = () => {
                   )
                 }
               </Col> 
-              {
-                !responsiveWidth && (
-                  <>
-                    {/* Immagine di background */}
-                    <Col className='details-picture-col-resp' xs='12' sm='12'>
-                      <img src={singleMovie.backdrop_path} alt={singleMovie.title} />
-                      <div className='details-content-col-resp'>
-                        {/* Titolo */}
-                        <Heading type='single-movie' title={singleMovie.title} />
-                        {/* Preferiti */}
-                        {
-                          movieFromLocal ? (
-                            <button onClick={removeToFavHandler} className='like-btn-resp like-btn-resp-fill'>
-                              <AiFillHeart />
-                            </button>
-                          ) : (
-                            <button onClick={addToFavHandler} className='like-btn-resp'>
-                              <AiOutlineHeart />
-                            </button>
-                          )
-                        }
-                      </div>
-                    </Col>
-                    {/* Trama */}
-                    <Col className='details-content_trama-resp' xs='12' sm='12'>
-                      <p>
-                        {singleMovie.overview}
-                      </p>
-                    </Col>
-                  </>
-                )
-              }
+              {/* Immagine di background */}
+              <Col className='details-picture-col-resp' xs='12' sm='12'>
+                <img src={singleMovie.backdrop_path} alt={singleMovie.title} />
+                <div className='details-content-col-resp'>
+                  {/* Titolo */}
+                  <Heading type='single-movie' title={singleMovie.title} />
+                  {/* Preferiti */}
+                  {
+                    movieFromLocal ? (
+                      <button onClick={removeToFavHandler} className='like-btn-resp like-btn-resp-fill'>
+                        <AiFillHeart />
+                      </button>
+                    ) : (
+                      <button onClick={addToFavHandler} className='like-btn-resp'>
+                        <AiOutlineHeart />
+                      </button>
+                    )
+                  }
+                </div>
+              </Col>
+              {/* Trama */}
+              <Col className='details-content_trama-resp' xs='12' sm='12'>
+                <p>
+                  {singleMovie.overview}
+                </p>
+              </Col>
             </Row>
           </Container>
-        )
+        ) : null
       }
     </Fragment>
   )
