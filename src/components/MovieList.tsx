@@ -1,38 +1,29 @@
+/* React */
 import type { FunctionComponent } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+/* Type */
 import { Movies } from '../pages/Home'
+/* Reactstrap & Style */
 import {Container, Row, Col} from 'reactstrap'
 import './styles/MovieList.scss'
-import { Link, NavLink } from 'react-router-dom'
+/* React icons */
 import {AiFillStar} from 'react-icons/ai'
 import {BiMoviePlay} from 'react-icons/bi'
 import {MdOutlineArrowForwardIos} from 'react-icons/md'
+/* Format */
 import {getOnlyMovieFullYear} from '../utils/Format'
-import {useEffect, useState} from 'react'
+/* Custom Hooks */
+import useResponsiveResize from '../hooks/useResponsiveResize'
+
 
 type MovieListProps = {
     movieList : Movies[]
 }
 
-
 const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
-    // Creao una variabile di stato per gestire la width responsive
-    const [responsiveWidth, setResponsiveWidth] = useState<boolean>(false)
-    
-    // useEffect che mi aiuta a sistemare il comportamento dell resize sulla Navbar
-    useEffect(() => {
-        // Handler per aggiornare variabile di stato navToggle al resize
-        const handleResponsiveResize = () => {
-            if (window.innerWidth >= 768 && responsiveWidth) setResponsiveWidth(true)
-        }
-        // Aggiungo evento listener alla window al resize
-        window.addEventListener("resize", handleResponsiveResize)
+    // Destructuring del mio custom Hook
+    const {responsiveWidth} = useResponsiveResize()
 
-        // Restituisco comunque una function che rimuove addEventListener
-        return () => {
-            window.removeEventListener("resize", handleResponsiveResize)
-        }
-    }, [responsiveWidth])
-    
     return (
     <Container className={`${responsiveWidth ? 'movie_list-container-resp' : 'movie_list-container'}`}>
         <Row className={`${responsiveWidth ? 'movie_list-row-resp' : 'movie_list-row' }`} >

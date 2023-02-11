@@ -6,13 +6,16 @@ import {FaBars, FaTimes} from 'react-icons/fa'
 import React, {Fragment, useState, useEffect} from 'react'
 import type { FunctionComponent } from 'react'
 import { useLocation } from 'react-router-dom'
+/* Custom Hooks */
+import useResponsiveResize from '../hooks/useResponsiveResize'
+
 
 const Navbar: FunctionComponent = () => {
   
-    // Variabile di stato per la pagina corrente
+  // Variabile di stato per la pagina corrente
   const [isCurrentPage, setIsCurrentPage] = useState<string>('')
-  // Variabile di stato per la nav responsive
-  const [navToggle, setNavToggle] = useState<boolean>(false)
+  // Destructuring del mio custom Hook
+  const {navToggle, setNavToggle} = useResponsiveResize()
   // utilizzo la location e la salvo in una variabile
   const pageLocation = useLocation()
   
@@ -20,21 +23,6 @@ const Navbar: FunctionComponent = () => {
   useEffect(() => {
     setIsCurrentPage(pageLocation.pathname === '/favorites' ? 'Favorites' : 'Top Rated')
   }, [pageLocation.pathname])
-
-  // useEffect che mi aiuta a sistemare il comportamento dell resize sulla Navbar
-  useEffect(() => {
-    // Handler per aggiornare variabile di stato navToggle al resize
-    const handleViewportResize = () => {
-      if (window.innerWidth >= 768 && navToggle) setNavToggle(false)
-    }
-    // Aggiungo evento listener alla window al resize
-    window.addEventListener("resize", handleViewportResize)
-
-    // Restituisco comunque una function che rimuove addEventListener
-    return () => {
-      window.removeEventListener("resize", handleViewportResize)
-    }
-  }, [navToggle])
 
   // Handler della nav dinamica
   const handlerNavToggle = () => {

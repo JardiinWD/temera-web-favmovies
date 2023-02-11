@@ -1,15 +1,26 @@
-import {Container, Row, Col} from 'reactstrap'
-import Button from '../components/UI/Button'
-import './styles/FilmDetails.scss'
-import Heading from '../components/UI/Heading'
-import Helmet from '../components/Helmet'
+/* React */
+import React, {Fragment, useState, useEffect, useMemo} from 'react'
+import { useParams } from 'react-router-dom'
+import type { FunctionComponent } from 'react'
+/* Icons */
 import {AiFillStar, AiFillHeart, AiOutlineHeart} from 'react-icons/ai'
 import {MdMovie} from 'react-icons/md'
-import React, {Fragment, useState, useEffect, useMemo} from 'react'
-import type { FunctionComponent } from 'react'
+/* Reactstrap */
+import {Container, Row, Col} from 'reactstrap'
+/* Components */
+import Button from '../components/UI/Button'
+import Heading from '../components/UI/Heading'
+import Helmet from '../components/Helmet'
+/* Style */
+import './styles/FilmDetails.scss'
+/* Type */
 import { Movies } from './Home'
-import { useParams } from 'react-router-dom'
+/* Format */
 import {singleMovieFormatDate, roundToDecimal, imgInitialPath} from '../utils/Format'
+/* Custom Hooks */
+import useResponsiveResize from '../hooks/useResponsiveResize'
+
+
 
 const FilmDetails: FunctionComponent = () => {
     // Prendo l'ID direttamente dalla query 
@@ -22,10 +33,9 @@ const FilmDetails: FunctionComponent = () => {
     const [movieFromLocal, setMovieFromLocal] = useState<boolean>(false)
     // Memorizzo la mia key nell'hook useMemo
     const apiMemoKey = useMemo(() => API_KEY_SINGLE_MOVIE, [API_KEY_SINGLE_MOVIE])
-    // Attivo anche qui la responsive Width (probabilmente è meglio usare variabile di stato globale, dopotutto serve anche qua e nella navbar)
-    const [responsiveWidth, setResponsiveWidth] = useState<boolean>(false)
-    // Responsive per la Background img (funziona ma la page necessita di refresh)
-    const [responsiveBackgroundImg, setResponsiveBackgroundImg] = useState<boolean>(false)
+    // Destructuring del mio custom hooks
+    const {responsiveWidth, responsiveBackgroundImg} = useResponsiveResize()
+
 
     //#region Call API
     useEffect(() => {
@@ -83,26 +93,6 @@ const FilmDetails: FunctionComponent = () => {
     }
     //#endregion
 
-    //#region Requisito Mobile Vers
-    useEffect(() => {
-      // Handler per aggiornare variabile di stato navToggle al resize
-      const handleResponsiveResize = () => {
-          // Condizione generale per applicare m queries
-          if (window.innerWidth >= 768 && responsiveWidth) setResponsiveWidth(true)
-          // Condizione per immagine di Background
-          if (window.innerWidth < 991.98) setResponsiveBackgroundImg(true)
-        }
-      // Aggiungo evento listener alla window al resize
-      window.addEventListener("resize", handleResponsiveResize)
-
-      // Restituisco comunque una function che rimuove addEventListener
-      return () => {
-          window.removeEventListener("resize", handleResponsiveResize)
-      }
-  }, [responsiveWidth, responsiveBackgroundImg])
-
-
-    //#endregion
 
     // Array per content_info
     const contentInfo = [
