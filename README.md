@@ -1,6 +1,6 @@
 # Temera Web Favmovies
 
-Questa web app sviluppata utilizzando `Typescript` e `React`. Il suo obiettivo principale è quello di visualizzare la lista dei film più popolari effettuando chiamate ad un `API` pubblica di `MovieDB`. L'applicazione consente di visualizzare i dettagli di un film specifico e di aggiungerlo ai preferiti tramite l'utilizzo di `LocalStorage`.
+Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo obiettivo principale è quello di visualizzare la lista dei film più popolari effettuando chiamate ad un `API` pubblica di `MovieDB`. L'applicazione consente di visualizzare i dettagli di un film specifico e di aggiungerlo ai preferiti tramite l'utilizzo di `LocalStorage`. Nella schermata `Home` viene invece data la possibilità di trovare altri film (di solito di 8 in 8 cards) grazie alla funzionalità `infinite scroll`
 
 
 ## Demo
@@ -36,13 +36,15 @@ Script per l'avvio dell'applicazione in modalità sviluppo
 ***
 ## Drawio e schema mentale.
 
-Prima di iniziare a scrivere codice, ho ideato uno schema su `diagrams.net`. Con lo schema sotto mano ho potuto valutare, in maniera schematica, il funzionamento della demo e ho intuito la gestione delle diverse parti dell'applicazione. Ho usato il `drawio` per pianificare la gestione e la visualizzazione delle variabili di `stato globali`, rendendo più semplice l'implementazione del codice. Il link al `diagrams.net` utilizzato lo trovate qui : 
+Prima di iniziare a scrivere codice, ho ideato uno schema su `diagrams.net`. Con lo schema sotto mano ho potuto valutare il funzionamento della demo e, con ciò, ho intuito la gestione delle diverse parti dell'applicazione. Il link al `diagrams.net` utilizzato lo trovate qui : 
 
 `https://app.diagrams.net/?src=about#G1L_6gbzExT1Bq4Fm_7tpkw6ia8EuJg4I8` 
 
 Nel caso di problemi di accesso ho fornito il `.JPEG` dello schema all'interno della repository.
 ***
 ## API
+
+In questo caso è doveroso fare una premessa. Nonostante si tratti di una API pubblica (disponibile quindi in rete) sono a conoscenza del fatto che la `API key` **non deve** in alcun modo essere **lasciata incustodita nella documentazione o all'interno di `componenti/pagine`**. Di conseguenza avrei optato per l'utilizzo di un file `.env`, non versionato grazie al file `gitignore`. Durante questa prova tecnica però ho optato per tenerla nei `componenti/pagine` per semplicità d'utilizzo.
 
 #### Top Rated movies paginated
 
@@ -53,7 +55,7 @@ https://api.themoviedb.org/3/movie/top_rated?api_key=a74169393e0da3cfbc2c58c5fee
 
 | Parametro | Type | Descrizione |
 | :-------- | :------- | :------------------------- |
-| `API_KEY_TOP_RATED` | `string` | **Required**. API key presente in `Format.ts` |
+| `API_TOP_RATED` | `string` | **Required**. Api per i film Top Rated. |
 
 #### Movie Details
 
@@ -63,7 +65,7 @@ https://api.themoviedb.org/3/movie/${id}?api_key=a74169393e0da3cfbc2c58c5feec63d
 
 | Parametro | Type     | Descrizione |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id dell'item da Fetchare |
+| `id`      | `string` | **Required**. Id dell'item da Fetchare. |
 
 #### Img Path iniziale
 
@@ -73,7 +75,7 @@ https://image.tmdb.org/t/p/w500
 
 | Parametro | Type     | Descrizione |
 | :-------- | :------- | :-------------------------------- |
-| `imgInitialPath`| `string` | **Required**. Percorso iniziali delle immagini |
+| `imgInitialPath`| `string` | **Required**. Percorso iniziali delle immagini. |
 
 
 #### Struttura stato `singleMovie` e `moviesList`
@@ -89,28 +91,37 @@ https://image.tmdb.org/t/p/w500
 | `vote_average` | `number` | Media voti |
 
 
-#### roundToDecimal(rating)
+### roundToDecimal(rating)
 
 Funzione per arrotondare il rating dei film.
 
-#### getOnlyMovieFullYear(date)
+### getOnlyMovieFullYear(date)
 
 Function per formattare la data di ogni oggetto movieList e prendere solo l'anno d'uscita.
 
-#### singleMovieFormatDate(date)
+### singleMovieFormatDate(date)
 Function per formattare la data con formato `en-GB` nella pagina FilmDetails.
 ***
 
 ## Scelte Progettuali
 
-Per lo sviluppo responsive dell'applicazione è stata utilizzata la libreria `react-strap`. Reactstrap utilizza Bootstrap come base per i suoi componenti, significa che tutti i componenti di Reactstrap sono già stilizzati. Ho scelto di utilizzarlo per gestire la WebApp fino a una dimensione di min 768px. Per gestire la differenza su schermi di dimensioni al di sotto invece, è stata implementata una variabile di stato `responsiveWidth` (presente in `useResponsiveResize.ts`), ovviando alle differenze di layout notate nei design di `Figma`. Per garantire la corretta visualizzazione delle pagine, è stato inoltre implementato uno `useEffect` per correggere eventuali problemi di rendering.
+Per lo sviluppo responsive dell'applicazione è stata utilizzata la libreria `react-strap`. Reactstrap utilizza Bootstrap come base per i suoi componenti, significa che tutti i componenti di Reactstrap sono già stilizzati. Tramite poi le Media Queries e la gestione delle variabili sono stato in grado di gestire le parti responsive, fino a una width di `400px`.
 
 ***
 ## Struttura Progetto
 
+#### Layout
+
+La cartella `layout` ospita il file di layout della mia webApp. In questo file vengono richiamati il `routers` e la `navbar`. 
+
+#### Routers
+
+La cartella `routers` ospita il file di routing della mia webApp. 
+
+
 #### Pages
 
-La cartella `pages` ospita le diverse pagine dell'applicazione che l'utente può visualizzare. Ho progettato l'applicazione come una SPA Application utilizzando il `router` di React.
+La cartella `pages` ospita le diverse pagine dell'applicazione che l'utente può visualizzare.
 
 `Favorites.tsx` : E' la pagina dove sono presenti i preferiti (presi dal `LocalStorage`).
 
@@ -164,12 +175,3 @@ Cosi facendo, anche qui, ho potuto eseguire un render differente in base al `typ
 In utils si trova il file predisposto alla formattazione dei dati fetchati nell'API (`Format.ts`). Oltre a ciò, nella cartella `src/styles` è presente anche un file `utils.scss` dove sono presenti gli elementi `:root` che mi hanno permesso di creare una buona struttura nei fogli di stile singoli e, ancora più importanti, si trovano le `@mixin` per la formattazione del `testo/buttons`
 ***
 
-## Custom Hooks
-
-La cartella `hooks` ospita le diverse `functions` e `state` del progetto che vengono richiamati dalle `pages / components`, tra cui troviamo : 
-
-`useFetchApi.ts` :  E' stato creato per semplificare e centralizzare la gestione delle chiamate API e la gestione delle `API_KEY`.
-
-`useResponsiveResize.ts` : E' stato creato per gestire la parte responsive di alcuni componenti, in particolare per il conditional rendering.
-
-Questi hooks mi hanno permesso di eseguire un refactoring massiccio del codice, rimuovendo gran parte delle variabili di stato dai `componenti/pages` mantenendo il codice pulito e organizzato.

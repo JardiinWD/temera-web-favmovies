@@ -6,28 +6,39 @@ import {FaBars, FaTimes} from 'react-icons/fa'
 import React, {Fragment, useState, useEffect} from 'react'
 import type { FunctionComponent } from 'react'
 import { useLocation } from 'react-router-dom'
-/* Custom Hooks */
-import useResponsiveResize from '../hooks/useResponsiveResize'
 
 
 const Navbar: FunctionComponent = () => {
-  
   // Variabile di stato per la pagina corrente
   const [isCurrentPage, setIsCurrentPage] = useState<string>('')
-  // Destructuring del mio custom Hook
-  const {navToggle, setNavToggle} = useResponsiveResize()
+  // Variabile di stato per la nav responsive
+  const [navToggle, setNavToggle] = useState<boolean>(false)
   // utilizzo la location e la salvo in una variabile
   const pageLocation = useLocation()
   
   // Update della variabile di stato isCurrentPage in base al pathname
   useEffect(() => {
     setIsCurrentPage(pageLocation.pathname === '/favorites' ? 'Favorites' : 'Top Rated')
-  }, [pageLocation.pathname])
+    // Handler per aggiornare variabile di stato navToggle al resize
+    const handleViewportResize = () => {
+      // Condizioni della nav
+      if (window.innerWidth >= 768 && navToggle) setNavToggle(false)
+    }
+    // Aggiungo evento listener alla window al resize
+    window.addEventListener("resize", handleViewportResize)
+
+    // Restituisco una function che rimuove addEventListener
+    return () => {
+        window.removeEventListener("resize", handleViewportResize)
+    }
+  }, [pageLocation.pathname, navToggle])
+
 
   // Handler della nav dinamica
   const handlerNavToggle = () => {
     setNavToggle(!navToggle)
   }
+
 
   return (
     <Fragment>
@@ -56,7 +67,7 @@ const Navbar: FunctionComponent = () => {
             }
           </div>
           {
-            navToggle && (
+            navToggle ? (
               <div className='navbar-responsive_wrapper'>
                   <Link onClick={handlerNavToggle} to='/'>
                     <span className={`${isCurrentPage === 'Top Rated' ? 'active-page' : ''}`}>Top Rated</span>
@@ -65,7 +76,7 @@ const Navbar: FunctionComponent = () => {
                     <span className={`${isCurrentPage === 'Favorites' ? 'active-page' : ''}`}>Favorites</span>
                   </Link>
               </div>
-            )
+            ) : null
           }
         </Row>
       </Container>

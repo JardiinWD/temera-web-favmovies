@@ -12,47 +12,39 @@ import {BiMoviePlay} from 'react-icons/bi'
 import {MdOutlineArrowForwardIos} from 'react-icons/md'
 /* Format */
 import {getOnlyMovieFullYear} from '../utils/Format'
-/* Custom Hooks */
-import useResponsiveResize from '../hooks/useResponsiveResize'
-
 
 type MovieListProps = {
     movieList : Movies[]
 }
 
 const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
-    // Destructuring del mio custom Hook
-    const {responsiveWidth} = useResponsiveResize()
 
     return (
-    <Container className={`${responsiveWidth ? 'movie_list-container-resp' : 'movie_list-container'}`}>
-        <Row className={`${responsiveWidth ? 'movie_list-row-resp' : 'movie_list-row' }`} >
+    <Container className='movie_list-container'>
+        <Row className='movie_list-row'>
             {
-                movieList.map((item, index) => {
-                    return (
-                    <Col key={index} className='movie_list-col' md='6' lg='4' xl='3' xxl='3' sm='8' xs='8'>
-                        <Link className='card-link-wrapper' to={`/home/${item.id}`}>
-                            <img className='card-img' src={item.poster_path} alt={item.title} />
-                            <span className='card-title'>{item.title}</span>
-                            <div className='card-item_info'>
-                                <span className='card-item_info-vote'>
-                                    <AiFillStar />
-                                    {item.vote_average}
-                                </span>
-                                <span className='card-item_info-vote'>
-                                    {/* Fixato per malfunzionamento API */}
-                                    {typeof item.release_date === 'string' ? getOnlyMovieFullYear(item.release_date) : item.release_date}
-                                </span>
-                            </div>
-                        </Link>
-                    </Col>
-                    )
-                })
-            }
-            {
-                !responsiveWidth && (
+                movieList ? (
                     movieList.map((item, index) => {
                         return (
+                            <>
+                            {/* Col > 992px */}
+                            <Col key={index} className='movie_list-col' md='6' lg='4' xl='3' xxl='3' sm='8' xs='8'>
+                                <Link className='card-link-wrapper' to={`/home/${item.id}`}>
+                                    <img className='card-img' src={item.poster_path} alt={item.title} />
+                                    <span className='card-title'>{item.title}</span>
+                                    <div className='card-item_info'>
+                                        <span className='card-item_info-vote'>
+                                            <AiFillStar />
+                                            {item.vote_average}
+                                        </span>
+                                        <span className='card-item_info-vote'>
+                                            {/* Fixato per malfunzionamento API */}
+                                            {typeof item.release_date === 'string' ? getOnlyMovieFullYear(item.release_date) : item.release_date}
+                                        </span>
+                                    </div>
+                                </Link>
+                            </Col>
+                            {/* Col < 768px */}
                             <Col key={index} sm='12' xs='12' md='12'  className='movie_list-col-resp'>
                                 <NavLink className='card-link-responsive-wrapper' to={`/home/${item.id}`}>
                                     {/* Image */}
@@ -78,10 +70,11 @@ const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
                                     </div>
                                 </NavLink>
                             </Col>
+                        </>
                         )
                     })
-                )
-            }      
+                ) : null
+            }    
         </Row>
     </Container>
     )
