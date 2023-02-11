@@ -1,5 +1,5 @@
 /* React */
-import React, {Fragment, useState, useEffect, useMemo} from 'react'
+import React, {Fragment, useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
 import type { FunctionComponent } from 'react'
 /* Icons */
@@ -13,58 +13,19 @@ import Heading from '../components/UI/Heading'
 import Helmet from '../components/Helmet'
 /* Style */
 import './styles/FilmDetails.scss'
-/* Type */
-import { Movies } from './Home'
-/* Format */
-import {singleMovieFormatDate, roundToDecimal, imgInitialPath} from '../utils/Format'
 /* Custom Hooks */
 import useResponsiveResize from '../hooks/useResponsiveResize'
-
-
+import useFetchApi from '../hooks/useFetchApi'
 
 const FilmDetails: FunctionComponent = () => {
     // Prendo l'ID direttamente dalla query 
     const { id } = useParams();
-    /* APIs Key = dove 278 è l'ID del film singolo  */
-    const API_KEY_SINGLE_MOVIE = `https://api.themoviedb.org/3/movie/${id}?api_key=a74169393e0da3cfbc2c58c5feec63d7`
-    // Array dichiarato inizialmente vuoto
-    const [singleMovie, setSingleMovie] = useState<Movies>();
-    // Variabile per verificare se c'è già il film nel localStorage (inizialmente false)
+    // Invoco la mia variabile di stato singleMovie e passo l'id del params
+    const {singleMovie} = useFetchApi(id)
+    // Variabile di stato per verificare se il film è tra i preferiti
     const [movieFromLocal, setMovieFromLocal] = useState<boolean>(false)
-    // Memorizzo la mia key nell'hook useMemo
-    const apiMemoKey = useMemo(() => API_KEY_SINGLE_MOVIE, [API_KEY_SINGLE_MOVIE])
     // Destructuring del mio custom hooks
     const {responsiveWidth, responsiveBackgroundImg} = useResponsiveResize()
-
-
-    //#region Call API
-    useEffect(() => {
-      const fetchSingleMovie = async () => {
-        try {
-          // Salvo in una variabile il responso dalla mia API key
-          const response = await fetch(apiMemoKey);
-          // nella variabile data salvo il JSON del response
-          const data = await response.json();
-          // faccio update della mia funzione di variabile di stato
-          setSingleMovie({
-              backdrop_path: imgInitialPath + data.backdrop_path, // Immagine di sfondo
-              id: data.id, // ID
-              overview: data.overview, // Trama
-              poster_path: imgInitialPath + data.poster_path, // Immagine cards
-              release_date: singleMovieFormatDate(data.release_date), // Data rilascio
-              title: data.title, // Titolo del film
-              vote_average: roundToDecimal(data.vote_average), // Media dei voti
-            }
-          );
-        } catch (error) {
-          // Verifico l'errore in console
-          console.error(error);
-        }
-      };
-      // Invoco la function 
-      fetchSingleMovie();
-    }, [apiMemoKey]);
-    //#endregion
 
     //#region requisito localStorage 
 
@@ -93,7 +54,6 @@ const FilmDetails: FunctionComponent = () => {
     }
     //#endregion
 
-
     // Array per content_info
     const contentInfo = [
       {
@@ -105,7 +65,6 @@ const FilmDetails: FunctionComponent = () => {
         text: singleMovie?.release_date
       }
     ]
-
 
   return (
     <Fragment>
