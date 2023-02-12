@@ -8,7 +8,7 @@ Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo ob
 
 Al seguente indirizzo è possibile provare le demo del codice che ho prodotto per questa prova tecnica.
 
-Link : `https://alep-temera-favmovies.netlify.app/home`
+Link : `https://alep-temera-favmovies.netlify.app/`
 ## Dipendenze e installazione.
 
 Per clonare il progetto localmente.
