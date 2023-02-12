@@ -1,6 +1,6 @@
 # Temera Web Favmovies
 
-Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo obiettivo principale è quello di visualizzare la lista dei film più popolari effettuando chiamate ad un `API` pubblica di `MovieDB`. L'applicazione consente di visualizzare i dettagli di un film specifico e di aggiungerlo ai preferiti tramite l'utilizzo di `LocalStorage`. Nella schermata `Home` viene invece data la possibilità di trovare altri film (di solito di 8 in 8 cards) grazie alla funzionalità `infinite scroll`
+Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo obiettivo principale è quello di visualizzare la lista dei film più popolari effettuando chiamate ad un `API` pubblica di `MovieDB`. L'applicazione consente di visualizzare i dettagli di un film specifico e di aggiungerlo ai preferiti tramite l'utilizzo di `LocalStorage`. Nella schermata `Home` viene invece data la possibilità di trovare altri film (di solito di 8 in 8 cards) grazie alla funzionalità `infinite scroll`.
 
 ***
 
@@ -8,7 +8,7 @@ Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo ob
 
 Al seguente indirizzo è possibile provare le demo del codice che ho prodotto per questa prova tecnica.
 
-Link : ``
+Link : `https://alep-temera-favmovies.netlify.app/home`
 ## Dipendenze e installazione.
 
 Per clonare il progetto localmente.
@@ -94,11 +94,9 @@ https://image.tmdb.org/t/p/w500
 
 
 ### roundToDecimal(rating)
-
-Funzione per arrotondare il rating dei film.
+Function per arrotondare il rating dei film.
 
 ### getOnlyMovieFullYear(date)
-
 Function per formattare la data di ogni oggetto movieList e prendere solo l'anno d'uscita.
 
 ### singleMovieFormatDate(date)
@@ -153,7 +151,7 @@ La cartella `layout` ospita il file di layout della mia webApp. In questo file v
 
 #### Routers
 
-La cartella `routers` ospita il file di routing della mia webApp. 
+La cartella `routers` ospita il file di routing della mia webApp. In questo file vengono richiamate le mie `pages` e il componente `Navbar`
 
 
 #### Pages
@@ -192,12 +190,12 @@ if (props.type === 'load') {
 }
 ```
 
-`Heading.tsx` : E' un componente generico (come button) che accetta diversi parametri, tra cui :
+`Heading.tsx` : E' un componente generico (cosi come Button) che accetta diversi parametri, tra cui :
 
 | Parametro | Type     | Descrizione |
 | :-------- | :------- | :-------------------------------- |
 | `title`      | `string` | Titolo heading |
-| `type`      | `single-movie - logo-title` | Type del button |
+| `type`      | `single-movie - logo-title - favorite-title` | Type del button |
 
 Cosi facendo, anche qui, ho potuto eseguire un render differente in base al `type` che decidevo di passargli.
 
