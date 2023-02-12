@@ -2,6 +2,7 @@
 
 Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo obiettivo principale è quello di visualizzare la lista dei film più popolari effettuando chiamate ad un `API` pubblica di `MovieDB`. L'applicazione consente di visualizzare i dettagli di un film specifico e di aggiungerlo ai preferiti tramite l'utilizzo di `LocalStorage`. Nella schermata `Home` viene invece data la possibilità di trovare altri film (di solito di 8 in 8 cards) grazie alla funzionalità `infinite scroll`
 
+***
 
 ## Demo
 
@@ -16,7 +17,7 @@ Per clonare il progetto localmente.
   git clone https://github.com/JardiinWD/temera-web-favmovies
 ```
 
-per navigare verso la directory
+Per navigare verso la directory
 
 ```bash
   cd temera-web-favmovies
@@ -28,7 +29,7 @@ Per installare tutte le dipendenze necessarie del progetto presenti nel `package
   npm install
 ```
 
-Script per l'avvio dell'applicazione in modalità sviluppo
+Script per l'avvio dell'applicazione (in modalità sviluppo)
 
 ```bash
   npm run start
@@ -42,9 +43,10 @@ Prima di iniziare a scrivere codice, ho ideato uno schema su `diagrams.net`. Con
 
 Nel caso di problemi di accesso ho fornito il `.JPEG` dello schema all'interno della repository.
 ***
+
 ## API
 
-In questo caso è doveroso fare una premessa. Nonostante si tratti di una API pubblica (disponibile quindi in rete) sono a conoscenza del fatto che la `API key` **non deve** in alcun modo essere **lasciata incustodita nella documentazione o all'interno di `componenti/pagine`**. Di conseguenza avrei optato per l'utilizzo di un file `.env`, non versionato grazie al file `gitignore`. Durante questa prova tecnica però ho optato per tenerla nei `componenti/pagine` per semplicità d'utilizzo.
+In questo caso è doveroso fare una premessa. Nonostante si tratti di una API pubblica (disponibile quindi in rete) sono a conoscenza del fatto che la `API key` **non deve** in alcun modo essere **lasciata incustodita nella documentazione o all'interno di `componenti/pagine`**. Di conseguenza avrei optato per l'utilizzo di un file `.env`, non versionato grazie al file `gitignore`. Durante questa prova tecnica però ho optato per tenerla nei `componenti/pagine` per facilità d'utilizzo.
 
 #### Top Rated movies paginated
 
@@ -103,7 +105,42 @@ Function per formattare la data di ogni oggetto movieList e prendere solo l'anno
 Function per formattare la data con formato `en-GB` nella pagina FilmDetails.
 ***
 
-## Scelte Progettuali
+***
+## Requisito "Load More/infinite scroll"
+
+E' giusto informarvi che, per il requisito `Load More/infinite scroll` ho avuto difficoltà, in particolare per la paginazione. Sono riuscito a implementare una soluzione "provvisoria", ovvero che al click sul Button `LoadMore` riesce a portarmi alla page successiva ma probabilmente non era il risultato sperato. Di seguito però vorrei lasciare il mio ragionamento logico, in `Javascript` ma che non ho avuto modo di implementare in `Typescript` e che molto probabilmente avrebbe risolto il requisito richiesto.
+
+```js
+
+const movieList = [{...}] // Mia variabile di stato MovieList (con gli elementi pre-caricati della page 1)
+const moviesPerPage = 8 // Il numero di film che mi aspetto ad ogni click su LoadMore 
+const moviesAPIPerPage = 20 // Il numero di items presenti nella &page=1 dell'API
+let currentPage = 1 // Questa è una "pagina" che verrebbe caricata al click su LoadMore. Di default è settata su 1
+let currentAPIPage = 1 // Questa invece è la pagina attuale della mia API. Di default è settata su 1
+
+// Function da applicare al button
+function onLoadMore() {
+  const nextPage = currentPage + 1 // Incremento della pagina corrente
+  const moviesNeeded = nextPage * moviesPerPage // Sono i film necessari per la cards 
+  const moviesLoaded = currentAPIPage * moviesAPIPerPage // Sono i film che vengono caricati
+
+  // Qua detto la condizione nel caso in cui moviesNeeded sia maggiore dei film caricati
+  if (moviesNeeded > moviesLoaded) {
+    // Incremento la mia pagina API
+    currentAPIPage++;
+    // Eseguo nuovamente un fetch per recuperare i dati
+    const fetchResult = fetch(`${LINK+API_KEY+&page=nextPage}`)
+    // nella mia movieList (la mia variabile di stato a tutti gli effetti) "appendo" fetchResult
+    // Senza resettare la mia movieList iniziale
+    movieList.push(fetchResult)
+    // Incremento il valore di currentPage
+    currentPage++;
+  }
+}
+```
+Per quanto riguarda invece la versione `infinite scroll`, con molta probabilità sarebbe stato complementare, ovvero che avrei aggiunto `l'evento` allo scroll e, una volta raggiunto il fondo della pagina avrei implementato `onLoadMore`
+
+## Scelte Progettuali e Responsive
 
 Per lo sviluppo responsive dell'applicazione è stata utilizzata la libreria `react-strap`. Reactstrap utilizza Bootstrap come base per i suoi componenti, significa che tutti i componenti di Reactstrap sono già stilizzati. Tramite poi le Media Queries e la gestione delle variabili sono stato in grado di gestire le parti responsive, fino a una width di `400px`.
 

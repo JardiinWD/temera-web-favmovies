@@ -3,7 +3,7 @@ import { Container, Row } from 'reactstrap'
 import './styles/Navbar.scss'
 import { Link } from 'react-router-dom'
 import {FaBars, FaTimes} from 'react-icons/fa'
-import React, {Fragment, useState, useEffect} from 'react'
+import {Fragment, useState, useEffect} from 'react'
 import type { FunctionComponent } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -19,9 +19,9 @@ const Navbar: FunctionComponent = () => {
   // Update della variabile di stato isCurrentPage in base al pathname
   useEffect(() => {
     setIsCurrentPage(pageLocation.pathname === '/favorites' ? 'Favorites' : 'Top Rated')
-    // Handler per aggiornare variabile di stato navToggle al resize
+    // Handler per aggiornare variabile di stato navToggle al resize.
     const handleViewportResize = () => {
-      // Condizioni della nav
+      // Condizioni della nav in caso di una viewporto >=
       if (window.innerWidth >= 768 && navToggle) setNavToggle(false)
     }
     // Aggiungo evento listener alla window al resize

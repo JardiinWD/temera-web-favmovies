@@ -24,10 +24,6 @@ const Home: FunctionComponent = () => {
   const [moviesList, setMoviesList] = useState<Array<Movies>>([]);
   // Variabile di stato per il loadMore (top rated)
   const [ratedPage, setRatedPage] = useState<number>(1)
-  // NB : 'fs', 'path' e 'os' non mi hanno permesso di salvare la API KEY in un file env.
-  // Conosco l'importanza del salvare la key in un file protetto (e in un gitignore) ma
-  // Non c'è modo di farla andare giù al Webpack. Lascio qua comunque la prova che ci ho sbattuto la testa.
-  // Provando anche a installare dotenv ma non ne vuole sapere
   // API KEY
   // const ApiKey = process.env.MOVIE_DB_API_KEY
   // API URL
@@ -66,14 +62,15 @@ const Home: FunctionComponent = () => {
     fetchMovieList();
 }, [API_TOP_RATED]);
   
-  // Function per incrementare i risultati nella paginazione
+  // Function per il requisito di paginazione
+  // N.B : Presente una nota nella documentazione riguardo a questo requisito
   const loadMoreResult = () => {
-    // Incremento il numero di pagina (che a sua volta cambia il valore all'API KEY)
+    // Incremento il numero di pagina (che a sua volta cambia il valore all'API)
     setRatedPage(ratedPage + 1)
     // Aggiungo uno scroll che mi riporta in cima alla pagina
     window.scrollTo({
         top: 0, // Dove
-        behavior: 'smooth' // E in che modo
+        behavior: 'smooth' // E in maniera fluida
     })
 }
 
@@ -81,7 +78,6 @@ const Home: FunctionComponent = () => {
     <Fragment >
       <Helmet page="Homepage" />
       <MovieList movieList={moviesList} />
-      {/* LoadMore ancora da implementare */}
       <div className='btn-load_wrapper'>
         <Button onClick={loadMoreResult} type='load' text='Load More' />
       </div>

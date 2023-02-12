@@ -88,7 +88,6 @@
 }
 
 
-/* @media (max-width: 767.98px) */
 @media only screen and (max-width: 767.98px) {
     
     /* Disabilito le colonne */
@@ -98,19 +97,6 @@
         display: none;
     }
 
-    /* Container Responsive */
-    .container-details-resp {
-        display: block;
-        width: 100vw;
-        @include flexProps(flex, center, center, row);
-    }
-
-    /* Row Responsive */
-    .row-details-resp {
-        display: block;
-        width: 100%;
-        @include flexProps(flex, center, flex-start, column);
-    }
 
     .details-picture-col-resp,
     .details-content_trama-resp {

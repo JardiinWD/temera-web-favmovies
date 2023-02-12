@@ -1,7 +1,9 @@
 import Helmet from '../components/Helmet'
 import MovieList from '../components/MovieList'
+import '../components/styles/Button.scss'
 import { Movies } from './Home'
 import React, {Fragment, useState, useEffect} from 'react'
+import Heading from '../components/UI/Heading'
 
 const Favorites = () => {
   // Dichiaro la variabile di stato favoriteFilm e la sua function
@@ -19,7 +21,17 @@ const Favorites = () => {
   return (
     <Fragment>
       <Helmet page="Favorites" />
-      <MovieList movieList={favoriteFilm} />
+      {
+        favoriteFilm.length !== 0 ? (
+          <MovieList movieList={favoriteFilm} />
+        ) : (
+          <>
+            <Heading title='Non ci sono film tra i favoriti' type='favorites-page' />
+          </>
+        )
+      }
+
+      
     </Fragment>
   )
 }

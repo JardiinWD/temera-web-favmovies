@@ -32,3 +32,15 @@
         var(--heading-logo-lh),
     )
 }
+
+.favorites-title {
+    @include textProps(
+        var(--heading-single-movie-md-fs), 
+        var(--heading-single-movie-pref-fs),
+        var(--heading-single-movie-xxl-fs), 
+        var(--font-weight-700), 
+        var(--primary-color), 
+        var(--heading-single-movie-lh)
+    );
+    margin: 0 auto;
+}

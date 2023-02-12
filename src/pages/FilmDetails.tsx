@@ -133,7 +133,6 @@ const FilmDetails: FunctionComponent = () => {
                     })
                   }
                 </div>
-                {/* Trama */}
                 <p className='details-content_trama'>
                   {singleMovie.overview}
                 </p>
@@ -146,13 +145,11 @@ const FilmDetails: FunctionComponent = () => {
                   )
                 }
               </Col> 
-              {/* Immagine di background */}
               <Col className='details-picture-col-resp' xs='12' sm='12'>
                 <img src={singleMovie.backdrop_path} alt={singleMovie.title} />
                 <div className='details-content-col-resp'>
                   {/* Titolo */}
                   <Heading type='single-movie' title={singleMovie.title} />
-                  {/* Preferiti */}
                   {
                     movieFromLocal ? (
                       <button onClick={removeToFavHandler} className='like-btn-resp like-btn-resp-fill'>
@@ -166,7 +163,6 @@ const FilmDetails: FunctionComponent = () => {
                   }
                 </div>
               </Col>
-              {/* Trama */}
               <Col className='details-content_trama-resp' xs='12' sm='12'>
                 <p>
                   {singleMovie.overview}

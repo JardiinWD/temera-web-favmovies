@@ -1,6 +1,6 @@
 import Routers from '../routes/routers'
 import Navbar from '../components/Navbar'
-import React, {Fragment} from 'react'
+import {Fragment} from 'react'
 
 const Layout = () => {
 

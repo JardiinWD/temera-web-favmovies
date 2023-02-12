@@ -1,6 +1,7 @@
 /* React */
 import type { FunctionComponent } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import {Fragment} from 'react'
 /* Type */
 import { Movies } from '../pages/Home'
 /* Reactstrap & Style */
@@ -20,63 +21,59 @@ type MovieListProps = {
 const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
 
     return (
-    <Container className='movie_list-container'>
-        <Row className='movie_list-row'>
-            {
-                movieList ? (
-                    movieList.map((item, index) => {
-                        return (
-                            <>
-                            {/* Col > 992px */}
-                            <Col key={index} className='movie_list-col' md='6' lg='4' xl='3' xxl='3' sm='8' xs='8'>
-                                <Link className='card-link-wrapper' to={`/home/${item.id}`}>
-                                    <img className='card-img' src={item.poster_path} alt={item.title} />
-                                    <span className='card-title'>{item.title}</span>
-                                    <div className='card-item_info'>
-                                        <span className='card-item_info-vote'>
-                                            <AiFillStar />
-                                            {item.vote_average}
-                                        </span>
-                                        <span className='card-item_info-vote'>
-                                            {/* Fixato per malfunzionamento API */}
-                                            {typeof item.release_date === 'string' ? getOnlyMovieFullYear(item.release_date) : item.release_date}
-                                        </span>
-                                    </div>
-                                </Link>
-                            </Col>
-                            {/* Col < 768px */}
-                            <Col key={index} sm='12' xs='12' md='12'  className='movie_list-col-resp'>
-                                <NavLink className='card-link-responsive-wrapper' to={`/home/${item.id}`}>
-                                    {/* Image */}
-                                    <img src={item.poster_path} alt={item.title} />
-                                    {/* content */}
-                                    <div className='movie_list-content-resp'>
-                                        {/* Titolo Film */}
-                                        <span className="card-title">{item.title}</span>
-                                        {/* Data del film */}
-                                        <span className='card-item_info-data-resp'>
-                                            <BiMoviePlay />
-                                            {getOnlyMovieFullYear(item.release_date)}
-                                        </span>
-                                        {/* Voti del film */}
-                                        <span className='card-item_info-vote-resp'>
-                                            <AiFillStar />
-                                            {item.vote_average}
-                                        </span>  
-                                    </div>
-                                    {/* Go-to Scheda prodotto */}    
-                                    <div className='card-item_info-redirect'>
-                                        <MdOutlineArrowForwardIos />
-                                    </div>
-                                </NavLink>
-                            </Col>
-                        </>
-                        )
-                    })
-                ) : null
-            }    
-        </Row>
-    </Container>
+        <Container className='movie_list-container'>
+            <Row className='movie_list-row'>
+                {
+                    movieList ? (
+                        movieList.map((item, index) => {
+                            return (
+                                <Fragment key={`${index}-${item.id}`}>
+                                    {/* Col > 992px */}
+                                    <Col key={`desktop-${index}-${item.id}`}  className='movie_list-col' md='6' lg='4' xl='3' xxl='3' sm='8' xs='8'>
+                                        <Link className='card-link-wrapper' to={`/home/${item.id}`}>
+                                            <img className='card-img' src={item.poster_path} alt={item.title} />
+                                            <span className='card-title'>{item.title}</span>
+                                            <div className='card-item_info'>
+                                                <span className='card-item_info-vote'>
+                                                    <AiFillStar />
+                                                    {item.vote_average}
+                                                </span>
+                                                <span className='card-item_info-vote'>
+                                                    {/* Fixato per differenza API (singleMovie / Top_Rated) */}
+                                                    {typeof item.release_date === 'string' ? getOnlyMovieFullYear(item.release_date) : item.release_date}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    </Col>
+                                    {/* Col < 768px */}
+                                    <Col key={`mobile-${index}-${item.id}`} sm='12' xs='12' md='12'  className='movie_list-col-resp'>
+                                        <Link className='card-link-responsive-wrapper' to={`/home/${item.id}`}>
+                                            {/* Image */}
+                                            <img src={item.poster_path} alt={item.title} />
+                                            {/* content */}
+                                            <div className='movie_list-content-resp'>
+                                                <span className="card-title">{item.title}</span>
+                                                <span className='card-item_info-data-resp'>
+                                                    <BiMoviePlay />
+                                                    {getOnlyMovieFullYear(item.release_date)}
+                                                </span>
+                                                <span className='card-item_info-vote-resp'>
+                                                    <AiFillStar />
+                                                    {item.vote_average}
+                                                </span>  
+                                            </div>  
+                                            <div className='card-item_info-redirect'>
+                                                <MdOutlineArrowForwardIos />
+                                            </div>
+                                        </Link>
+                                    </Col>
+                                </Fragment>
+                            )
+                        })
+                    ) : null
+                }    
+            </Row>
+        </Container>
     )
 }
 

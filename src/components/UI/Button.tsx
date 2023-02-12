@@ -1,6 +1,5 @@
 import type { FunctionComponent } from 'react'
 import '../styles/Button.scss'
-import React from 'react'
 
 type ButtonProps = {
     text: String,
@@ -37,7 +36,7 @@ const Button: FunctionComponent<ButtonProps> = (props) => {
         )
     }
 
-    /* Altrimenti eseguo un return vuoto */
+    /* Altrimenti eseguo un return di un fragment vuoto */
     return <></>
 }
 
