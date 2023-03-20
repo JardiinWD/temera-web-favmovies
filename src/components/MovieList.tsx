@@ -20,17 +20,10 @@ type MovieListProps = {
 
 const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
 
-    const handleScroll = (e: any) => {
-        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-        console.log(e.target);
-        if (bottom) { 
-            alert("Sono in fondo")
-        }
-    }
 
     return (
         <Container className='movie_list-container'>
-            <Row onScroll={handleScroll} className='movie_list-row'>
+            <Row className='movie_list-row'>
                 {
                     movieList ? (
                         movieList.map((item, index) => {
@@ -63,7 +56,7 @@ const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
                                                 <span className="card-title">{item.title}</span>
                                                 <span className='card-item_info-data-resp'>
                                                     <BiMoviePlay />
-                                                    {getOnlyMovieFullYear(item.release_date)}
+                                                    {typeof item.release_date === 'string' ? getOnlyMovieFullYear(item.release_date) : item.release_date}
                                                 </span>
                                                 <span className='card-item_info-vote-resp'>
                                                     <AiFillStar />

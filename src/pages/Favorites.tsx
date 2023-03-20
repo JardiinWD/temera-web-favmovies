@@ -25,13 +25,9 @@ const Favorites = () => {
         favoriteFilm.length !== 0 ? (
           <MovieList movieList={favoriteFilm} />
         ) : (
-          <>
-            <Heading title='Non ci sono film tra i favoriti' type='favorites-page' />
-          </>
+          <Heading title='Non ci sono film tra i favoriti' type='favorites-page' />
         )
       }
-
-      
     </Fragment>
   )
 }
