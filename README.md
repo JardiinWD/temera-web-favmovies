@@ -1,6 +1,6 @@
 # Temera Web Favmovies
 
-Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo obiettivo principale è quello di visualizzare la lista dei film più popolari effettuando chiamate ad un `API` pubblica di `MovieDB`. L'applicazione consente di visualizzare i dettagli di un film specifico e di aggiungerlo ai preferiti tramite l'utilizzo di `LocalStorage`. Nella schermata `Home` viene invece data la possibilità di trovare altri film (di solito di 8 in 8 cards) grazie alla funzionalità `infinite scroll`.
+Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo obiettivo principale è quello di visualizzare la lista dei film più popolari effettuando chiamate ad un `API` pubblica di `MovieDB`. L'applicazione consente di visualizzare i dettagli di un film specifico e di aggiungerlo ai preferiti tramite l'utilizzo di `LocalStorage`. Nella schermata `Home` viene invece data la possibilità di trovare altri film grazie alla funzionalità `infinite scroll/Load more`.
 
 ***
 
@@ -8,7 +8,7 @@ Questa web app è stata sviluppata utilizzando `Typescript` e `React`. Il suo ob
 
 Al seguente indirizzo è possibile provare le demo del codice che ho prodotto per questa prova tecnica.
 
-Link : `https://alep-temera-favmovies.netlify.app/`
+Link : `https://alep-temera-favmovies.netlify.app/home`
 ## Dipendenze e installazione.
 
 Per clonare il progetto localmente.
@@ -106,7 +106,7 @@ Function per formattare la data con formato `en-GB` nella pagina FilmDetails.
 ***
 ## Requisito "Load More/infinite scroll"
 
-E' giusto informarvi che, per il requisito `Load More/infinite scroll` ho avuto difficoltà, in particolare per la paginazione. Sono riuscito a implementare una soluzione "provvisoria", ovvero che al click sul Button `LoadMore` riesce a portarmi alla page successiva ma probabilmente non era il risultato sperato. Di seguito però vorrei lasciare il mio ragionamento logico, in `Javascript` ma che non ho avuto modo di implementare in `Typescript` e che molto probabilmente avrebbe risolto il requisito richiesto.
+E' giusto informarvi che, per il requisito `Load More/infinite scroll` ho avuto difficoltà, in particolare per la paginazione. Sono riuscito a implementare una soluzione "provvisoria", ovvero che al click sul Button `LoadMore` riesce a concatenare alla mia `movieList` anche i film della pagina successiva ma probabilmente non era lo scopo della feature richiesta. Di seguito però vorrei lasciare il mio ragionamento logico, in `Javascript` ma che non ho avuto modo di implementare in `Typescript` e che molto probabilmente avrebbe risolto il requisito richiesto.
 
 ```js
 
@@ -177,17 +177,30 @@ La cartella `components` ospita i diversi componenti del progetto che vengono ri
 | `type`      | `load - add - remove` | Type del button |
 | `onClick`   | `function` | Riceve una function tramite props |
 
-Cosi facendo ho potuto eseguire un render differente in base al `type` che decidevo di passargli. ecco un esempio:
+Cosi facendo ho potuto eseguire un render differente in base al `type` che decidevo di passargli, grazie anche allo `switch`. ecco un esempio:
 
-```ts
-/* Se passo il button type 'load' */
-if (props.type === 'load') {
-    return (
-        <button onClick={props.onClick} className='btn-load_more'>
-            {props.text}
-        </button>
-    )
-}
+```tsx
+/* in base al props.type */
+switch (props.type) {
+        case 'load':
+            return (
+                <button onClick={props.onClick} className='btn-load_more'>
+                    {props.text}
+                </button>
+            )
+        case 'add': 
+            return (
+                <button onClick={props.onClick} className='btn-add_to_pref'>
+                    {props.text}
+                </button>
+            )            
+        case 'remove':
+            return (
+                <button onClick={props.onClick} className='btn-remove_to_pref'>
+                    {props.text}
+                </button>
+            )
+    }
 ```
 
 `Heading.tsx` : E' un componente generico (cosi come Button) che accetta diversi parametri, tra cui :
