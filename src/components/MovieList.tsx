@@ -20,9 +20,17 @@ type MovieListProps = {
 
 const MovieList: FunctionComponent<MovieListProps> = ({movieList}) => {
 
+    const handleScroll = (e: any) => {
+        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+        console.log(e.target);
+        if (bottom) { 
+            alert("Sono in fondo")
+        }
+    }
+
     return (
         <Container className='movie_list-container'>
-            <Row className='movie_list-row'>
+            <Row onScroll={handleScroll} className='movie_list-row'>
                 {
                     movieList ? (
                         movieList.map((item, index) => {

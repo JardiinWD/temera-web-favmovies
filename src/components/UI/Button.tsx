@@ -8,36 +8,27 @@ type ButtonProps = {
 }
 
 const Button: FunctionComponent<ButtonProps> = (props) => {
-    
-    /* Se passo il button type 'load' */
-    if (props.type === 'load') {
-        return (
-            <button onClick={props.onClick} className='btn-load_more'>
-                {props.text}
-            </button>
-        )
+    /* Switch Case per i vari type */
+    switch (props.type) {
+        case 'load':
+            return (
+                <button onClick={props.onClick} className='btn-load_more'>
+                    {props.text}
+                </button>
+            )
+        case 'add': 
+            return (
+                <button onClick={props.onClick} className='btn-add_to_pref'>
+                    {props.text}
+                </button>
+            )            
+        case 'remove':
+            return (
+                <button onClick={props.onClick} className='btn-remove_to_pref'>
+                    {props.text}
+                </button>
+            )
     }
-
-    /* Se passo il button type 'add' */
-    if (props.type === 'add') {
-        return (
-            <button onClick={props.onClick} className='btn-add_to_pref'>
-                {props.text}
-            </button>
-        )
-    }
-
-    /* Se passo il button type 'remove' */
-    if (props.type === 'remove') {
-        return (
-            <button onClick={props.onClick} className='btn-remove_to_pref'>
-                {props.text}
-            </button>
-        )
-    }
-
-    /* Altrimenti eseguo un return di un fragment vuoto */
-    return <></>
 }
 
 export default Button
